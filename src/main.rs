@@ -11,8 +11,9 @@ fn number_to_binary_str(num: u8) -> String
     {
         binary_str += match(num>>bit&0x01)
         {
-            1 => "▀",
-            _ => "▄",
+            //1 => "▀",
+            1 => "^d^●^aa0f00#c^",
+            _ => "●",
         }
     }
     binary_str.chars().rev().collect::<String>()
