@@ -36,7 +36,7 @@ fn main()
     _status_text 
         = format!(" {} | {}" 
                   , _status_text
-                  , now.format("%Y-%m-%m %H:%M:%S"));
+                  , now.format("%Y-%m-%d %H:%M:%S"));
 
     _status_text
         = format!(" {} | {} {} {}"
