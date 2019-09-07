@@ -6,14 +6,16 @@ use std::process::Command;
 use std::{thread, time};
 use systemstat::{Platform, System};
 
+static cycle_lenght: u8 = 200;
+
 fn setxroot(_status_text: String) {
     let output = Command::new("xsetroot")
         .arg("-name")
         .arg(_status_text)
         .output()
         .expect("Failed to set X root window name!");
-    println!("{:?}", output.stdout);
-    println!("{:?}", output.stderr);
+    // println!("{:?}", output.stdout);
+    // println!("{:?}", output.stderr);
 }
 
 fn number_to_binary_str(num: u8) -> String {
@@ -28,8 +30,7 @@ fn number_to_binary_str(num: u8) -> String {
 }
 
 fn main() {
-    let sleep_time_scalar = 100u8;
-    let sleep_time = time::Duration::from_millis(sleep_time_scalar as u64);
+    let sleep_time = time::Duration::from_millis(cycle_lenght as u64);
     let mut rx_bytes_previous = 0u32;
     let mut tx_bytes_previous = 0u32;
     let mut cycle_counter = 0u8;
@@ -77,7 +78,7 @@ fn main() {
         tx_bytes_counter += tx_bytes_diff as u32;
         rx_bytes_previous = rx_bytes_summa;
         tx_bytes_previous = tx_bytes_summa;
-        if (cycle_counter as u16) % (1000 / (sleep_time_scalar as u16)) == 0 {
+        if (cycle_counter as u16) % (1000 / (cycle_lenght as u16)) == 0 {
             rx_bytes = rx_bytes_counter;
             tx_bytes = tx_bytes_counter;
             rx_bytes_counter = 0;
@@ -147,12 +148,13 @@ fn main() {
             number_to_binary_str(now.time().hour() as u8)
         );
 
-        println!("{}", _status_text);
+        //println!("{}", _status_text);
         setxroot(_status_text);
         thread::sleep(sleep_time);
         cycle_counter += 1;
-        if cycle_counter >= 254 {
-            cycle_counter = 0;
-        }
+        // Avoid to use unsafe block because of overflowing.
+//        if cycle_counter >= 254 {
+//            cycle_counter = 0;
+//        }
     }
 }

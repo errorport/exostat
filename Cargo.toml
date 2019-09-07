@@ -5,6 +5,16 @@ authors = ["Gergely Bencsik <becsegergely@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-
 systemstat = "*"
 chrono = "0.4.6"
+
+[profile.release]
+opt-level = 3
+overflow-checks = false
+lto = true
+codegen-units = 1
+debug = false
+rpath = false
+incremental = false
+debug-assertions = false
+panic = 'abort'
