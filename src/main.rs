@@ -7,6 +7,7 @@ use std::{thread, time};
 use systemstat::{Platform, System};
 
 static cycle_lenght: u8 = 200;
+const active_color: &'static str = "#00f0aa";
 
 fn setxroot(_status_text: String) {
     let output = Command::new("xsetroot")
@@ -21,9 +22,9 @@ fn setxroot(_status_text: String) {
 fn number_to_binary_str(num: u8) -> String {
     let mut binary_str: String = "".to_string();
     for bit in 0..8 {
-        binary_str += match num >> bit & 0x01 {
-            1 => "^c#00f0aa^●^d^",
-            _ => "●",
+        binary_str = match num >> bit & 0x01 {
+            1 => format!("{}^c{}^●^d^", binary_str, active_color),
+            _ => format!("{}●", binary_str),
         }
     }
     binary_str
@@ -85,10 +86,10 @@ fn main() {
             tx_bytes_counter = 0;
         }
         if rx_bytes_diff > 0 {
-            download_icon = format!("^c#00f0aa^{}^d^", download_icon);
+            download_icon = format!("^c{}^{}^d^", active_color, download_icon);
         }
         if tx_bytes_diff > 0 {
-            upload_icon = format!("^c#00f0aa^{}^d^", upload_icon);
+            upload_icon = format!("^c{}^{}^d^", active_color, upload_icon);
         }
         _status_text = format!(
             "{} | {} {:04}kB/s - {} {:04}kB/s",
@@ -126,7 +127,7 @@ fn main() {
         match sys.on_ac_power() {
             Ok(_is_ac_plugged) => {
                 if _is_ac_plugged {
-                    _battery_icon = format!("^c#00f0aa^{}^d^", _battery_icon);
+                    _battery_icon = format!("^c{}^{}^d^", active_color, _battery_icon);
                 }
             }
             Err(e) => println!("{}", e),
