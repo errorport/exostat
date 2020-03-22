@@ -7,7 +7,7 @@ use std::{thread, time};
 use systemstat::{Platform, System};
 
 static cycle_lenght: u8 = 200;
-const active_color: &'static str = "#00f0aa";
+const active_color: &'static str = "#de0047";
 
 fn setxroot(_status_text: String) {
     let output = Command::new("xsetroot")
