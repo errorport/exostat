@@ -137,10 +137,8 @@ fn main() {
             _status_text, _battery_icon, _battery_capacity
         );
 
-        // Displaying local time.
-        let now = chrono::Local::now();
-        _status_text = format!(" {} | {}", _status_text, now.format("%Y-%m-%d %H:%M:%S"));
         // Displaying binary-watch format time.
+        let now = chrono::Local::now();
         _status_text = format!(
             " {} | {} {} {}",
             _status_text,
@@ -148,6 +146,9 @@ fn main() {
             number_to_binary_str(now.time().minute() as u8),
             number_to_binary_str(now.time().hour() as u8)
         );
+
+        // Displaying local time.
+        _status_text = format!(" {} | {}", _status_text, now.format("%Y-%m-%d %H:%M:%S"));
 
         //println!("{}", _status_text);
         setxroot(_status_text);
