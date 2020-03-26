@@ -19,6 +19,16 @@ fn setxroot(_status_text: String) {
     // println!("{:?}", output.stderr);
 }
 
+fn get_keyboard_layout() -> String {
+    let output = Command::new("/bin/bash")
+        .arg("get_keyboard_layout.sh")
+        .output()
+        .expect("??");
+    String::from_utf8(output.stdout)
+        .unwrap()
+        .replace("\n", "")
+}
+
 fn number_to_binary_str(num: u8) -> String {
     let mut binary_str: String = "".to_string();
     for bit in 0..8 {
@@ -50,9 +60,13 @@ fn main() {
         let mut upload_icon = "".to_string();
         let mut download_icon = "".to_string();
 
+        // Displaying keyboard layout
+        // 
+        _status_text = format!(" {}", get_keyboard_layout());
+
         // Displaying CPU temp.
         match sys.cpu_temp() {
-            Ok(_temp) => _status_text = format!(" {}°C", _temp),
+            Ok(_temp) => _status_text = format!("{} |  {}°C", _status_text, _temp),
             Err(e) => println!("{}", e),
         }
 
