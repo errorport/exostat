@@ -3,10 +3,11 @@ extern crate systemstat;
 
 use chrono::Timelike;
 use std::process::Command;
-use std::{thread, time};
+use std::{thread, time, env};
 use systemstat::{Platform, System};
 
 static cycle_lenght: u8 = 200;
+const path_to_root: &'static str = "/home/bencsikg/dev/exostat";
 const active_color: &'static str = "#de0047";
 
 fn setxroot(_status_text: String) {
@@ -21,7 +22,7 @@ fn setxroot(_status_text: String) {
 
 fn get_keyboard_layout() -> String {
     let output = Command::new("/bin/bash")
-        .arg("get_keyboard_layout.sh")
+        .arg(format!("{}/get_keyboard_layout.sh", path_to_root))
         .output()
         .expect("??");
     String::from_utf8(output.stdout)
