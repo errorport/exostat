@@ -7,8 +7,9 @@ use chrono::Timelike;
 use std::{thread, time};
 use systemstat::{Platform, System};
 
-mod utility;
+pub mod utility;
 pub mod config;
+mod text_builders;
 
 fn main() { 
     let sleep_time = time::Duration::from_millis(config::CYCLE_LENGTH as u64);
@@ -30,18 +31,16 @@ fn main() {
         let mut upload_icon = "".to_string();
         let mut download_icon = "".to_string();
 
-        // Displaying keyboard layout
-        // 
-        _status_text
-            = format!(
-                " {}"
-                , utility::get_keyboard_layout());
+        _status_text = format!(
+            "{} | "
+            , text_builders::get_keyboard_text()
+        );
 
-        // Displaying CPU temp.
-        match sys.cpu_temp() {
-            Ok(_temp) => _status_text = format!("{} |  {}°C", _status_text, _temp),
-            Err(e) => println!("{}", e),
-        }
+        _status_text = format!(
+            "{} {} | "
+            , _status_text
+            , text_builders::get_cpu_text(&sys)
+        );
 
         // Displaying network statistics.
         let network_interfaces = sys.networks().unwrap();
