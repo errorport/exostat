@@ -1,48 +1,17 @@
+#[allow(non_snake_case)]
+
 extern crate chrono;
 extern crate systemstat;
 
 use chrono::Timelike;
-use std::process::Command;
-use std::{thread, time, env};
+use std::{thread, time};
 use systemstat::{Platform, System};
 
-static cycle_lenght: u8 = 200;
-const path_to_root: &'static str = "/home/bencsikg/dev/exostat";
-const active_color: &'static str = "#de0047";
+mod utility;
+pub mod config;
 
-fn setxroot(_status_text: String) {
-    let output = Command::new("xsetroot")
-        .arg("-name")
-        .arg(_status_text)
-        .output()
-        .expect("Failed to set X root window name!");
-    // println!("{:?}", output.stdout);
-    // println!("{:?}", output.stderr);
-}
-
-fn get_keyboard_layout() -> String {
-    let output = Command::new("/bin/bash")
-        .arg(format!("{}/get_keyboard_layout.sh", path_to_root))
-        .output()
-        .expect("??");
-    String::from_utf8(output.stdout)
-        .unwrap()
-        .replace("\n", "")
-}
-
-fn number_to_binary_str(num: u8) -> String {
-    let mut binary_str: String = "".to_string();
-    for bit in 0..8 {
-        binary_str = match num >> bit & 0x01 {
-            1 => format!("{}^c{}^●^d^", binary_str, active_color),
-            _ => format!("{}●", binary_str),
-        }
-    }
-    binary_str
-}
-
-fn main() {
-    let sleep_time = time::Duration::from_millis(cycle_lenght as u64);
+fn main() { 
+    let sleep_time = time::Duration::from_millis(config::CYCLE_LENGTH as u64);
     let mut rx_bytes_previous = 0u32;
     let mut tx_bytes_previous = 0u32;
     let mut cycle_counter = 0u8;
@@ -63,7 +32,10 @@ fn main() {
 
         // Displaying keyboard layout
         // 
-        _status_text = format!(" {}", get_keyboard_layout());
+        _status_text
+            = format!(
+                " {}"
+                , utility::get_keyboard_layout());
 
         // Displaying CPU temp.
         match sys.cpu_temp() {
@@ -94,17 +66,17 @@ fn main() {
         tx_bytes_counter += tx_bytes_diff as u32;
         rx_bytes_previous = rx_bytes_summa;
         tx_bytes_previous = tx_bytes_summa;
-        if (cycle_counter as u16) % (1000 / (cycle_lenght as u16)) == 0 {
+        if (cycle_counter as u16) % (1000 / (config::CYCLE_LENGTH as u16)) == 0 {
             rx_bytes = rx_bytes_counter;
             tx_bytes = tx_bytes_counter;
             rx_bytes_counter = 0;
             tx_bytes_counter = 0;
         }
         if rx_bytes_diff > 0 {
-            download_icon = format!("^c{}^{}^d^", active_color, download_icon);
+            download_icon = format!("^c{}^{}^d^", config::ACTIVE_COLOR, download_icon);
         }
         if tx_bytes_diff > 0 {
-            upload_icon = format!("^c{}^{}^d^", active_color, upload_icon);
+            upload_icon = format!("^c{}^{}^d^", config::ACTIVE_COLOR, upload_icon);
         }
         _status_text = format!(
             "{} | {} {:04}kB/s - {} {:04}kB/s",
@@ -142,7 +114,8 @@ fn main() {
         match sys.on_ac_power() {
             Ok(_is_ac_plugged) => {
                 if _is_ac_plugged {
-                    _battery_icon = format!("^c{}^{}^d^", active_color, _battery_icon);
+                    _battery_icon
+                        = format!("^c{}^{}^d^", config::ACTIVE_COLOR, _battery_icon);
                 }
             }
             Err(e) => println!("{}", e),
@@ -157,21 +130,21 @@ fn main() {
         _status_text = format!(
             " {} | {} {} {}",
             _status_text,
-            number_to_binary_str(now.time().second() as u8),
-            number_to_binary_str(now.time().minute() as u8),
-            number_to_binary_str(now.time().hour() as u8)
+            utility::number_to_binary_str(now.time().second() as u8),
+            utility::number_to_binary_str(now.time().minute() as u8),
+            utility::number_to_binary_str(now.time().hour() as u8)
         );
 
         // Displaying local time.
         _status_text = format!(" {} | {}", _status_text, now.format("%Y-%m-%d %H:%M:%S"));
 
         //println!("{}", _status_text);
-        setxroot(_status_text);
+        utility::setxroot(_status_text);
         thread::sleep(sleep_time);
         cycle_counter += 1;
         // Avoid to use unsafe block because of overflowing.
-//        if cycle_counter >= 254 {
-//            cycle_counter = 0;
-//        }
+        if cycle_counter >= 254 {
+            cycle_counter = 0;
+        }
     }
 }
