@@ -1,4 +1,5 @@
 use systemstat::{Platform, System};
+use chrono::Timelike;
 use super::config;
 use super::utility;
 
@@ -41,4 +42,57 @@ pub fn get_netw_rxtx_text(
             download_icon,
             (*rx_bytes / 1024) as u32
         )
+}
+
+// Displaying battery status.
+// Icons:         
+pub fn get_battery_text(sys: &System) -> String {
+    let mut _battery_icon = "".to_string();
+    let mut _battery_capacity = 0u8;
+    match sys.battery_life() {
+        Ok(battery) => {
+            let pwr = (battery.remaining_capacity * 100.0) as u8;
+            if pwr > 20 {
+                _battery_icon = "".to_string();
+            }
+            if pwr > 40 {
+                _battery_icon = "".to_string();
+            }
+            if pwr > 60 {
+                _battery_icon = "".to_string();
+            }
+            if pwr > 80 {
+                _battery_icon = "".to_string();
+            }
+            _battery_capacity = (battery.remaining_capacity * 100.0) as u8;
+        }
+        Err(_e) => println!("{}", _e),
+    }
+    match sys.on_ac_power() {
+        Ok(_is_ac_plugged) => {
+            if _is_ac_plugged {
+                _battery_icon
+                    = format!("^c{}^{}^d^", config::ACTIVE_COLOR, _battery_icon);
+            }
+        }
+        Err(_e) => println!("{}", _e)
+    }
+    format!("{} {:02}%", _battery_icon, _battery_capacity)
+}
+
+// Displaying binary-watch format time.
+pub fn get_binary_clock_text() -> String {
+    let now = chrono::Local::now();
+    format!(
+        "{} {} {}",
+        utility::number_to_binary_str(now.time().second() as u8),
+        utility::number_to_binary_str(now.time().minute() as u8),
+        utility::number_to_binary_str(now.time().hour() as u8)
+    )
+}
+
+// Displaying time.
+pub fn get_clock_text() -> String {
+    let now = chrono::Local::now();
+    now.format("%Y-%m-%d %H:%M:%S").to_string()
 }

@@ -43,111 +43,45 @@ fn main() {
         );
 
         _status_text = format!(
-            "{} | "
+            "{} |"
             , text_builders::get_keyboard_text()
         );
 
         _status_text = format!(
-            "{} {} | "
+            "{} {} |"
             , _status_text
             , text_builders::get_cpu_text(&sys)
         );
 
-
-        // Displaying network statistics.
-        let network_interfaces = sys.networks().unwrap();
-        for network_if in network_interfaces.values() {
-            match sys.network_stats(&network_if.name) {
-                Ok(netstat) => {
-                    rx_bytes_summa += netstat.rx_bytes as u32;
-                    tx_bytes_summa += netstat.tx_bytes as u32;
-                }
-                Err(e) => println!("{}", e),
-            }
-        }
-        rx_bytes_diff = rx_bytes_summa as i64 - rx_bytes_previous as i64;
-        if rx_bytes_diff < 0 {
-            rx_bytes_diff = 0;
-        }
-        tx_bytes_diff = tx_bytes_summa as i64 - tx_bytes_previous as i64;
-        if tx_bytes_diff < 0 {
-            tx_bytes_diff = 0;
-        }
-        rx_bytes_counter += rx_bytes_diff as u32;
-        tx_bytes_counter += tx_bytes_diff as u32;
-        rx_bytes_previous = rx_bytes_summa;
-        tx_bytes_previous = tx_bytes_summa;
-        if (cycle_counter as u16) % (1000 / (config::CYCLE_LENGTH as u16)) == 0 {
-            rx_bytes = rx_bytes_counter;
-            tx_bytes = tx_bytes_counter;
-            rx_bytes_counter = 0;
-            tx_bytes_counter = 0;
-        }
-        if rx_bytes_diff > 0 {
-            download_icon = format!("^c{}^{}^d^", config::ACTIVE_COLOR, download_icon);
-        }
-        if tx_bytes_diff > 0 {
-            upload_icon = format!("^c{}^{}^d^", config::ACTIVE_COLOR, upload_icon);
-        }
         _status_text = format!(
-            "{} | {} {:04}kB/s - {} {:04}kB/s",
-            _status_text,
-            upload_icon,
-            (tx_bytes / 1024) as u32,
-            download_icon,
-            (rx_bytes / 1024) as u32
+            "{} {} |"
+            , _status_text
+            , text_builders::get_netw_rxtx_text(
+                &rx_bytes_diff
+                , &tx_bytes_diff
+                , &rx_bytes
+                , &tx_bytes
+            )
         );
 
-        // Displaying battery status.
-        let mut _battery_icon = "".to_string();
-        let mut _battery_capacity = 0u8;
-        match sys.battery_life() {
-            Ok(battery) => {
-                let pwr = (battery.remaining_capacity * 100.0) as u8;
-                if pwr > 20 {
-                    _battery_icon = "".to_string();
-                }
-                if pwr > 40 {
-                    _battery_icon = "".to_string();
-                }
-                if pwr > 60 {
-                    _battery_icon = "".to_string();
-                }
-                if pwr > 80 {
-                    _battery_icon = "".to_string();
-                }
-                _battery_capacity = (battery.remaining_capacity * 100.0) as u8;
-            }
-            Err(e) => println!("{}", e),
-        }
-
-        // Displaying AC status.
-        match sys.on_ac_power() {
-            Ok(_is_ac_plugged) => {
-                if _is_ac_plugged {
-                    _battery_icon
-                        = format!("^c{}^{}^d^", config::ACTIVE_COLOR, _battery_icon);
-                }
-            }
-            Err(e) => println!("{}", e),
-        }
         _status_text = format!(
-            "{} | {} {:02}%",
-            _status_text, _battery_icon, _battery_capacity
+            "{} {} |"
+            , _status_text
+            , text_builders::get_battery_text(&sys)
         );
 
-        // Displaying binary-watch format time.
-        let now = chrono::Local::now();
         _status_text = format!(
-            " {} | {} {} {}",
-            _status_text,
-            utility::number_to_binary_str(now.time().second() as u8),
-            utility::number_to_binary_str(now.time().minute() as u8),
-            utility::number_to_binary_str(now.time().hour() as u8)
+            "{} {} |"
+            , _status_text
+            , text_builders::get_binary_clock_text()
         );
 
         // Displaying local time.
-        _status_text = format!(" {} | {}", _status_text, now.format("%Y-%m-%d %H:%M:%S"));
+        _status_text = format!(
+            " {} {}"
+            , _status_text
+            , text_builders::get_clock_text()
+        );
 
         //println!("{}", _status_text);
         utility::setxroot(_status_text);
