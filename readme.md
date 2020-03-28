@@ -20,7 +20,7 @@ It writes it's output into xroot.
 
 ## Building
 
-sh```
+```
 ./build.sh
 ```
 
