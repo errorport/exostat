@@ -14,16 +14,14 @@ pub fn setxroot(_status_text: String) {
 
 // Running keyboard layout getter script.
 pub fn get_keyboard_layout(
-    //path_to_root: &'static str
-    //, script_filename: &'static str
     ) -> String {
-    let _output = Command::new("/bin/bash")
-        .arg(format!("{}/{}", config::PATH_TO_ROOT, config::GETKBL_SCRIPT))
+    let _output = Command::new("setxkbmap")
+        .arg("-query")
         .output()
         .expect("??");
-    String::from_utf8(_output.stdout)
-        .unwrap()
-        .replace("\n", "")
+    String::from_utf8(
+        _output.stdout[_output.stdout.len()-3..].to_vec()
+    ).unwrap().replace("\n", "")
 }
 
 // Clock stuff.
