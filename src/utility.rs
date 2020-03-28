@@ -1,6 +1,6 @@
 use std::process::Command;
 use super::config;
-use systemstat::{Platform, System};
+use systemstat::{Platform, System, Network, BTreeMap};
 
 // Updating X rootserver's window name.
 pub fn setxroot(_status_text: String) {
@@ -42,6 +42,7 @@ pub fn number_to_binary_str(num: u8) -> String {
 // Calculating network statistics.
 pub fn calculate_network_rxtx<'a>(
     sys:                 &System
+    , netw:              &BTreeMap<String, Network>
     , rx_bytes_previous: &'a mut u32
     , tx_bytes_previous: &'a mut u32
     , rx_bytes_counter:  &'a mut u32
@@ -55,9 +56,8 @@ pub fn calculate_network_rxtx<'a>(
 {
     let mut rx_bytes_summa = 0u32;
     let mut tx_bytes_summa = 0u32;
-    let network_interfaces = sys.networks().unwrap();
 
-    for network_if in network_interfaces.values() {
+    for network_if in netw.values() {
         match sys.network_stats(&network_if.name) {
             Ok(netstat) => {
                 rx_bytes_summa += netstat.rx_bytes as u32;

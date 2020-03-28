@@ -1,5 +1,5 @@
 use systemstat::{Platform, System};
-use chrono::Timelike;
+use chrono::{Timelike, DateTime};
 use super::config;
 use super::utility;
 
@@ -81,8 +81,7 @@ pub fn get_battery_text(sys: &System) -> String {
 }
 
 // Displaying binary-watch format time.
-pub fn get_binary_clock_text() -> String {
-    let now = chrono::Local::now();
+pub fn get_binary_clock_text(now: &DateTime<chrono::Local>) -> String {
     format!(
         "{} {} {}",
         utility::number_to_binary_str(now.time().second() as u8),
@@ -92,7 +91,6 @@ pub fn get_binary_clock_text() -> String {
 }
 
 // Displaying time.
-pub fn get_clock_text() -> String {
-    let now = chrono::Local::now();
+pub fn get_clock_text(now: &DateTime<chrono::Local>) -> String {
     now.format("%Y-%m-%d %H:%M:%S").to_string()
 }

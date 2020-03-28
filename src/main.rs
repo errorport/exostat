@@ -21,13 +21,19 @@ fn main() {
     let mut tx_bytes_counter = 0u32;
     let mut rx_bytes_diff = 0i64;
     let mut tx_bytes_diff = 0i64;
-    let sys = System::new();
+
+    // Initializing system resources
+    let sys  = System::new();
+    let netw = sys.networks().unwrap();
+    let mut now = chrono::Local::now();
 
     loop {
         let mut _status_text: String = "".to_string();
+        now = chrono::Local::now();
 
         utility::calculate_network_rxtx(
             &sys
+            , &netw
             , &mut rx_bytes_previous
             , &mut tx_bytes_previous
             , &mut rx_bytes_counter
@@ -70,14 +76,14 @@ fn main() {
         _status_text = format!(
             "{} {} |"
             , _status_text
-            , text_builders::get_binary_clock_text()
+            , text_builders::get_binary_clock_text(&now)
         );
 
         // Displaying local time.
         _status_text = format!(
             " {} {}"
             , _status_text
-            , text_builders::get_clock_text()
+            , text_builders::get_clock_text(&now)
         );
 
         //println!("{}", _status_text);
