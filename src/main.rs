@@ -31,6 +31,17 @@ fn main() {
         let mut upload_icon = "".to_string();
         let mut download_icon = "".to_string();
 
+        utility::calculate_network_rxtx(
+            &sys
+            , &mut rx_bytes_previous
+            , &mut tx_bytes_previous
+            , &mut rx_bytes_counter
+            , &mut tx_bytes_counter
+            , &mut rx_bytes
+            , &mut tx_bytes
+            , &cycle_counter
+        );
+
         _status_text = format!(
             "{} | "
             , text_builders::get_keyboard_text()
@@ -41,6 +52,7 @@ fn main() {
             , _status_text
             , text_builders::get_cpu_text(&sys)
         );
+
 
         // Displaying network statistics.
         let network_interfaces = sys.networks().unwrap();

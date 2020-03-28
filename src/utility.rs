@@ -1,5 +1,7 @@
 use std::process::Command;
 use super::config;
+use systemstat::{Platform, System};
+
 // Updating X rootserver's window name.
 pub fn setxroot(_status_text: String) {
     let _output = Command::new("xsetroot")
@@ -36,3 +38,52 @@ pub fn number_to_binary_str(num: u8) -> String {
     }
     binary_str
 }
+
+// Calculating network statistics.
+pub fn calculate_network_rxtx<'a>(
+    sys:                 &System
+    , rx_bytes_previous: &'a mut u32
+    , tx_bytes_previous: &'a mut u32
+    , rx_bytes_counter:  &'a mut u32
+    , tx_bytes_counter:  &'a mut u32
+    , rx_bytes:          &'a mut u32
+    , tx_bytes:          &'a mut u32
+    , cycle_counter:     &u8
+    ) -> (i64, i64)
+{
+    let mut rx_bytes_summa = 0u32;
+    let mut tx_bytes_summa = 0u32;
+    let mut rx_bytes_diff  = 0i64;
+    let mut tx_bytes_diff  = 0i64;    
+    let network_interfaces = sys.networks().unwrap();
+
+    for network_if in network_interfaces.values() {
+        match sys.network_stats(&network_if.name) {
+            Ok(netstat) => {
+                rx_bytes_summa += netstat.rx_bytes as u32;
+                tx_bytes_summa += netstat.tx_bytes as u32;
+            }
+            Err(e) => println!("{}", e),
+        }
+    }
+    rx_bytes_diff = rx_bytes_summa as i64 - *rx_bytes_previous as i64;
+    if rx_bytes_diff < 0 {
+        rx_bytes_diff = 0;
+    }
+    tx_bytes_diff = tx_bytes_summa as i64 - *tx_bytes_previous as i64;
+    if tx_bytes_diff < 0 {
+        tx_bytes_diff = 0;
+    }
+    *rx_bytes_counter += rx_bytes_diff as u32;
+    *tx_bytes_counter += tx_bytes_diff as u32;
+    *rx_bytes_previous = rx_bytes_summa;
+    *tx_bytes_previous = tx_bytes_summa;
+    if (*cycle_counter as u16) % (1000 / (config::CYCLE_LENGTH as u16)) == 0 {
+        *rx_bytes = *rx_bytes_counter;
+        *tx_bytes = *tx_bytes_counter;
+        *rx_bytes_counter = 0;
+        *tx_bytes_counter = 0;
+    }
+    return (rx_bytes_diff, tx_bytes_diff);
+}
+
