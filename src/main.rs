@@ -3,7 +3,6 @@
 extern crate chrono;
 extern crate systemstat;
 
-use chrono::Timelike;
 use std::{thread, time};
 use systemstat::{Platform, System};
 
@@ -20,16 +19,12 @@ fn main() {
     let mut tx_bytes = 0u32;
     let mut rx_bytes_counter = 0u32;
     let mut tx_bytes_counter = 0u32;
+    let mut rx_bytes_diff = 0i64;
+    let mut tx_bytes_diff = 0i64;
     let sys = System::new();
 
     loop {
         let mut _status_text: String = "".to_string();
-        let mut rx_bytes_summa = 0u32;
-        let mut tx_bytes_summa = 0u32;
-        let mut rx_bytes_diff = 0i64;
-        let mut tx_bytes_diff = 0i64;
-        let mut upload_icon = "".to_string();
-        let mut download_icon = "".to_string();
 
         utility::calculate_network_rxtx(
             &sys
@@ -39,6 +34,8 @@ fn main() {
             , &mut tx_bytes_counter
             , &mut rx_bytes
             , &mut tx_bytes
+            , &mut rx_bytes_diff
+            , &mut tx_bytes_diff
             , &cycle_counter
         );
 

@@ -15,7 +15,7 @@ pub fn get_keyboard_text() -> String {
 pub fn get_cpu_text(system: &System) -> String {
     match system.cpu_temp() {
         Ok(_temp) => format!(" {}°C", _temp),
-        Err(e) => "  ??".to_string(),
+        Err(_e) => "  ??".to_string(),
     }
 }
 
