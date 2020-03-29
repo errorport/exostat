@@ -21,6 +21,8 @@ fn main() {
     let mut tx_bytes_counter = 0u32;
     let mut rx_bytes_diff = 0i64;
     let mut tx_bytes_diff = 0i64;
+    let mut battery_capacity = 0u8;
+    let mut battery_ac = false;
 
     // Initializing system resources
     let sys  = System::new();
@@ -44,6 +46,11 @@ fn main() {
             , &mut tx_bytes_diff
             , &cycle_counter
         );
+
+        if (cycle_counter % config::BATTERY_READ_CYCLE) == 0 {
+            battery_capacity = utility::get_battery_pwr(&sys);
+            battery_ac = utility::get_battery_ac(&sys);
+        }
 
         _status_text = format!(
             "{} |"
@@ -70,7 +77,7 @@ fn main() {
         _status_text = format!(
             "{} {} |"
             , _status_text
-            , text_builders::get_battery_text(&sys)
+            , text_builders::get_battery_text(&battery_capacity, &battery_ac)
         );
 
         _status_text = format!(

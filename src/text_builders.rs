@@ -46,38 +46,28 @@ pub fn get_netw_rxtx_text(
 
 // Displaying battery status.
 // Icons:         
-pub fn get_battery_text(sys: &System) -> String {
+pub fn get_battery_text(
+    pwr: &u8
+    , ac: &bool
+    ) -> String {
     let mut _battery_icon = "".to_string();
-    let mut _battery_capacity = 0u8;
-    match sys.battery_life() {
-        Ok(battery) => {
-            let pwr = (battery.remaining_capacity * 100.0) as u8;
-            if pwr > 20 {
-                _battery_icon = "".to_string();
-            }
-            if pwr > 40 {
-                _battery_icon = "".to_string();
-            }
-            if pwr > 60 {
-                _battery_icon = "".to_string();
-            }
-            if pwr > 80 {
-                _battery_icon = "".to_string();
-            }
-            _battery_capacity = (battery.remaining_capacity * 100.0) as u8;
-        }
-        Err(_e) => println!("{}", _e),
+    if *pwr > 20 {
+        _battery_icon = "".to_string();
     }
-    match sys.on_ac_power() {
-        Ok(_is_ac_plugged) => {
-            if _is_ac_plugged {
-                _battery_icon
-                    = format!("^c{}^{}^d^", config::ACTIVE_COLOR, _battery_icon);
-            }
-        }
-        Err(_e) => println!("{}", _e)
+    if *pwr > 40 {
+        _battery_icon = "".to_string();
     }
-    format!("{} {:02}%", _battery_icon, _battery_capacity)
+    if *pwr > 60 {
+        _battery_icon = "".to_string();
+    }
+    if *pwr > 80 {
+        _battery_icon = "".to_string();
+    }
+    if *ac {
+        _battery_icon
+            = format!("^c{}^{}^d^", config::ACTIVE_COLOR, _battery_icon);
+    }
+    format!("{} {:02}%", _battery_icon, *pwr)
 }
 
 // Displaying binary-watch format time.

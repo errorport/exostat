@@ -84,3 +84,21 @@ pub fn calculate_network_rxtx<'a>(
     }
 }
 
+pub fn get_battery_pwr(sys: &System) -> u8 {
+    match sys.battery_life() {
+        Ok(battery) => {
+            (battery.remaining_capacity * 100.0) as u8
+        }
+        Err(_e) => {0u8}
+    }
+}
+
+pub fn get_battery_ac(sys: &System) -> bool {
+    match sys.on_ac_power() {
+        Ok(is_ac_plugged) => {
+            is_ac_plugged
+        }
+        Err(_e) => {false}
+    }
+}
+
