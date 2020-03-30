@@ -21,7 +21,7 @@ pub fn get_keyboard_layout(
         .expect("??");
     String::from_utf8(
         _output.stdout[_output.stdout.len()-3..].to_vec()
-    ).unwrap().replace("\n", "")
+    ).unwrap().replace("\n", "").to_uppercase()
 }
 
 // Clock stuff.
