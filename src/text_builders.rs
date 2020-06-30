@@ -36,7 +36,7 @@ pub fn get_netw_rxtx_text(
             upload_icon = format!("^c{}^{}^d^", config::ACTIVE_COLOR, upload_icon);
         }
         format!(
-            "{} {:04}kB/s - {} {:04}kB/s",
+            "{} {:04}KiB/s - {} {:04}KiB/s",
             upload_icon,
             (*tx_bytes / 1024) as u32,
             download_icon,
