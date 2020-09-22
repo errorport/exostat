@@ -11,7 +11,7 @@ pub fn get_keyboard_text() -> String {
 }
 
 // Displaying CPU temp.
-// Icon:  
+// Icon: 
 pub fn get_cpu_text(system: &System) -> String {
     match system.cpu_temp() {
         Ok(_temp) => format!(" {}°C", _temp),
@@ -36,7 +36,7 @@ pub fn get_netw_rxtx_text(
             upload_icon = format!("^c{}^{}^d^", config::ACTIVE_COLOR, upload_icon);
         }
         format!(
-            "{} {:04}KiB/s - {} {:04}KiB/s",
+            "{} {:04}KiB/s {} {:04}KiB/s",
             upload_icon,
             (*tx_bytes / 1024) as u32,
             download_icon,
@@ -82,5 +82,5 @@ pub fn get_binary_clock_text(now: &DateTime<chrono::Local>) -> String {
 
 // Displaying time.
 pub fn get_clock_text(now: &DateTime<chrono::Local>) -> String {
-    now.format("%Y-%m-%d %H:%M:%S").to_string()
+    now.format("^w^%Y-%m-%d %H:%M:%S").to_string()
 }
