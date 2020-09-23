@@ -72,11 +72,10 @@ pub fn get_battery_text(
 
 // Displaying binary-watch format time.
 pub fn get_binary_clock_text(now: &DateTime<chrono::Local>) -> String {
-    format!(
-        "{} {} {}",
-        utility::number_to_binary_str(now.time().second() as u8),
-        utility::number_to_binary_str(now.time().minute() as u8),
-        utility::number_to_binary_str(now.time().hour() as u8)
+    utility::number_to_binary_str(
+        now.time().hour() as u8
+        , now.time().minute() as u8
+        , now.time().second() as u8
     )
 }
 

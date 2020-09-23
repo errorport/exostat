@@ -24,16 +24,50 @@ pub fn get_keyboard_layout(
     ).unwrap().replace("\n", "").to_uppercase()
 }
 
+fn place_dot(num: u8, vertical_offset: u8) -> String {
+    let mut dot_str = format!(
+        "^r0,{},{},{}^"
+        , vertical_offset
+        , config::BINARY_DOT_SIZE
+        , config::BINARY_DOT_SIZE
+    );
+    let small_dot_str = format!(
+        "^r1,{},{},{}^"
+        , vertical_offset + 1
+        , config::BINARY_DOT_SIZE / 2
+        , config::BINARY_DOT_SIZE / 2
+    );
+    dot_str = match num {
+        1 => format!(
+            "^c{}^{}^d^"
+            , config::ACTIVE_COLOR
+            , dot_str
+        ),
+        _ => small_dot_str,
+    };
+
+    dot_str
+}
+
 // Clock stuff.
 // Works with only exodwm or text-color patched dwm.
-pub fn number_to_binary_str(num: u8) -> String {
+pub fn number_to_binary_str(hour: u8, min: u8, sec: u8) -> String {
     let mut binary_str: String = "".to_string();
     for bit in 0..8 {
-        binary_str = match num >> bit & 0x01 {
-            1 => format!("{}^c{}^●^d^", binary_str, config::ACTIVE_COLOR),
-            _ => format!("{}●", binary_str),
-        }
+        binary_str = format!(
+            "{}{}{}{}"
+            , binary_str
+            , place_dot(hour >> bit & 0x01, 3)
+            , place_dot(min  >> bit & 0x01, 9)
+            , place_dot(sec  >> bit & 0x01, 15)
+        );
+        binary_str = format!(
+            "{}^f{}^"
+            , binary_str
+            , config::BINARY_DOT_OFFSET
+        );
     }
+
     binary_str
 }
 
