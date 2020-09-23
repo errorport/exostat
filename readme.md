@@ -3,6 +3,10 @@
 This is a simple system-status tool.
 It writes it's output into xroot.
 
+![EXOSTAT](exostat.png)
+
+[Article on dev.to](https://dev.to/errorport/exostat-minimal-system-statusbar-1im)
+
 ## Features
 
 - Keyboard layout display.
