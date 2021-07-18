@@ -1,6 +1,6 @@
 [package]
 name = "exostat"
-version = "0.2.0"
+version = "1.0.0"
 authors = ["Gergely Bencsik <becsegergely@gmail.com>"]
 edition = "2018"
 
