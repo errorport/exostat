@@ -6,8 +6,11 @@ use super::utility;
 // Displaying keyboard layout
 // Icon: 
 pub fn get_keyboard_text() -> String {
-    format!(" {}"
-    , utility::get_keyboard_layout())
+    format!(
+        " {} {}"
+        , utility::get_keyboard_layout()
+        , utility::get_keyboard_ledmask()
+    )
 }
 
 // Displaying CPU temp.

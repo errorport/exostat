@@ -10,7 +10,7 @@ pub mod utility;
 pub mod config;
 mod text_builders;
 
-fn main() { 
+fn main() {
     let sleep_time = time::Duration::from_millis(config::CYCLE_LENGTH as u64);
     let mut rx_bytes_previous = 0u32;
     let mut tx_bytes_previous = 0u32;

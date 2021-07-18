@@ -1,4 +1,4 @@
-use std::process::Command;
+use std::process::{Command, Stdio};
 use super::config;
 use systemstat::{Platform, System, Network, BTreeMap};
 
@@ -13,8 +13,7 @@ pub fn setxroot(_status_text: String) {
 }
 
 // Running keyboard layout getter script.
-pub fn get_keyboard_layout(
-    ) -> String {
+pub fn get_keyboard_layout() -> String {
     let _output = Command::new("setxkbmap")
         .arg("-query")
         .output()
@@ -24,18 +23,84 @@ pub fn get_keyboard_layout(
     ).unwrap().replace("\n", "").to_uppercase()
 }
 
-fn place_dot(num: u8, vertical_offset: u8) -> String {
+// Getting numlock and capslock indicators.
+// xset q | grep 'LED mask' | awk '{print $10}'
+pub fn get_keyboard_ledmask() -> String {
+
+    let mut ledmask: u8 = 0;
+
+    let mut _xset_output_child = Command::new("xset")
+        .arg("q")
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+
+    if let Some(_xset_output) = _xset_output_child.stdout.take() {
+        let mut _grep_output_child = Command::new("grep")
+            .arg("LED")
+            .stdin(_xset_output)
+            .stdout(Stdio::piped())
+            .spawn()
+            .unwrap();
+
+        _xset_output_child.wait().unwrap();
+
+        if let Some(_grep_output) = _grep_output_child.stdout.take() {
+            let mut _awk_output_child = Command::new("awk")
+                .arg("{print $10}")
+                .stdin(_grep_output)
+                .stdout(Stdio::piped())
+                .spawn()
+                .unwrap();
+
+            let mut _out = String::from_utf8(
+                _awk_output_child.wait_with_output().unwrap().stdout
+            ).unwrap();
+
+            _grep_output_child.wait().unwrap();
+
+            _out.pop();
+            ledmask = _out.parse::<u64>().unwrap() as u8;
+
+        }
+    }
+
+    format!(
+        "{}{}^f{}^"
+        , place_dot(
+            ledmask & 0x01 // CAPS lock
+            , 3
+            , config::KEYLOCK_DOT_HORIZONTAL_SPACING
+            , config::KEYLOCK_DOT_SIZE
+        )
+        , place_dot(
+            ledmask >> 1 & 0x01 // NUM lock
+            , 12
+            , config::KEYLOCK_DOT_HORIZONTAL_SPACING
+            , config::KEYLOCK_DOT_SIZE
+        )
+        , config::KEYLOCK_DOT_OFFSET
+    )
+}
+
+fn place_dot(
+    num: u8
+    , vertical_offset: u8
+    , horizontal_spacing: u8
+    , dotsize: u8
+) -> String {
     let mut dot_str = format!(
         "^r0,{},{},{}^"
         , vertical_offset
-        , config::BINARY_DOT_SIZE
-        , config::BINARY_DOT_SIZE
+        , dotsize
+        , dotsize
     );
     let small_dot_str = format!(
-        "^r1,{},{},{}^"
-        , vertical_offset + 1
-        , config::BINARY_DOT_SIZE / 2
-        , config::BINARY_DOT_SIZE / 2
+        "^r{},{},{},{}^"
+        , horizontal_spacing
+        , vertical_offset + horizontal_spacing
+        , dotsize / 2
+        , dotsize / 2
     );
     dot_str = match num {
         1 => format!(
@@ -57,9 +122,24 @@ pub fn number_to_binary_str(hour: u8, min: u8, sec: u8) -> String {
         binary_str = format!(
             "{}{}{}{}"
             , binary_str
-            , place_dot(hour >> bit & 0x01, 3)
-            , place_dot(min  >> bit & 0x01, 9)
-            , place_dot(sec  >> bit & 0x01, 15)
+            , place_dot(
+                hour >> bit & 0x01
+                , 3
+                , config::BINARY_DOT_HORIZONTAL_SPACING
+                , config::BINARY_DOT_SIZE
+            )
+            , place_dot(
+                min  >> bit & 0x01
+                , 9
+                , config::BINARY_DOT_HORIZONTAL_SPACING
+                , config::BINARY_DOT_SIZE
+            )
+            , place_dot(
+                sec  >> bit & 0x01
+                , 15
+                , config::BINARY_DOT_HORIZONTAL_SPACING
+                , config::BINARY_DOT_SIZE
+            )
         );
         binary_str = format!(
             "{}^f{}^"
