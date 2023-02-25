@@ -1,6 +1,7 @@
 pub static ACTIVE_COLOR:                    &'static str    = "#005bed";
-pub const  CYCLE_LENGTH:                    u16             = 500;
-pub const  BATTERY_READ_CYCLE:              u8              = 20; // Every Nth cycle.
+pub const  CYCLE_LENGTH_ms:                 u32             = 200;
+pub const  BATTERY_READ_CYCLE_ms:           u32             = 20000;
+pub const  CPU_READ_CYCLE_ms:               u32             = 10000;
 pub const  BINARY_DOT_SIZE:                 u8              = 4;
 pub const  BINARY_DOT_HORIZONTAL_SPACING:   u8              = 1;
 pub const  BINARY_DOT_OFFSET:               u8              = 6;

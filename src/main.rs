@@ -4,74 +4,73 @@ extern crate chrono;
 extern crate systemstat;
 
 use std::{thread, time};
+use std::sync::{Arc, Mutex};
 use systemstat::{Platform, System};
 
 pub mod utility;
 pub mod config;
 mod text_builders;
+mod network_util;
+mod battery_util;
+mod cpu_util;
+
+use crate::network_util::NetworkUtil;
+use crate::battery_util::BatteryUtil;
+use crate::cpu_util::CPUUtil;
 
 fn main() {
-    let sleep_time = time::Duration::from_millis(config::CYCLE_LENGTH as u64);
-    let mut rx_bytes_previous = 0u32;
-    let mut tx_bytes_previous = 0u32;
-    let mut cycle_counter = 0u8;
+    let sleep_time = time::Duration::from_millis(config::CYCLE_LENGTH_ms as u64);
+
+    // Initializing resources
+    let sys  = Arc::new(Mutex::new(System::new()));
+    let mut heartbeat = 0u8;
+    // Networking resources
+    let network_util = Arc::new(Mutex::new(NetworkUtil::default()));
+    NetworkUtil::spawn_networkstat(Arc::clone(&network_util), Arc::clone(&sys));
     let mut rx_bytes = 0u32;
     let mut tx_bytes = 0u32;
-    let mut rx_bytes_counter = 0u32;
-    let mut tx_bytes_counter = 0u32;
-    let mut rx_bytes_diff = 0i64;
-    let mut tx_bytes_diff = 0i64;
+    // Battery info resources
+    let battery_util = Arc::new(Mutex::new(BatteryUtil::default()));
+    BatteryUtil::spawn_batterystat(Arc::clone(&battery_util), Arc::clone(&sys));
     let mut battery_capacity = 0u8;
     let mut battery_ac = false;
+    // CPU info resources
+    let cpu_util = Arc::new(Mutex::new(CPUUtil::default()));
+    CPUUtil::spawn_cpustat(Arc::clone(&cpu_util), Arc::clone(&sys));
+    let mut cpu_temperature = 0f32;
 
-    // Initializing system resources
-    let sys  = System::new();
-    let netw = sys.networks().unwrap();
     let mut now = chrono::Local::now();
 
     loop {
+        (rx_bytes, tx_bytes) = Arc::clone(&network_util).lock().unwrap().get_rxtx();
+        battery_capacity = Arc::clone(&battery_util).lock().unwrap().get_battery_pwr();
+        battery_ac = Arc::clone(&battery_util).lock().unwrap().get_battery_ac();
+        cpu_temperature = Arc::clone(&cpu_util).lock().unwrap().get_temperature();
+
         let mut _status_text: String = "".to_string();
         now = chrono::Local::now();
 
-        utility::calculate_network_rxtx(
-            &sys
-            , &netw
-            , &mut rx_bytes_previous
-            , &mut tx_bytes_previous
-            , &mut rx_bytes_counter
-            , &mut tx_bytes_counter
-            , &mut rx_bytes
-            , &mut tx_bytes
-            , &mut rx_bytes_diff
-            , &mut tx_bytes_diff
-            , &cycle_counter
+        _status_text = format!(
+            "{} "
+            , utility::get_heartbeat_text(heartbeat)
         );
 
-        if (cycle_counter % config::BATTERY_READ_CYCLE) == 0 {
-            battery_capacity = utility::get_battery_pwr(&sys);
-            battery_ac = utility::get_battery_ac(&sys);
-        }
-
         _status_text = format!(
-            "{} |"
+            "{} {} |"
+            , _status_text
             , text_builders::get_keyboard_text()
         );
 
         _status_text = format!(
             "{} {} |"
             , _status_text
-            , text_builders::get_cpu_text(&sys)
+            , text_builders::get_cpu_text(cpu_temperature)
         );
 
         _status_text = format!(
             "{} {} |"
             , _status_text
-            , text_builders::get_netw_rxtx_text(
-                &rx_bytes_diff
-                , &tx_bytes_diff
-                , &rx_bytes
-                , &tx_bytes
-            )
+            , text_builders::get_netw_rxtx_text(&rx_bytes, &tx_bytes)
         );
 
         _status_text = format!(
@@ -92,14 +91,10 @@ fn main() {
             , _status_text
             , text_builders::get_clock_text(&now)
         );
-
         //println!("{}", _status_text);
         utility::setxroot(_status_text);
         thread::sleep(sleep_time);
-        cycle_counter += 1;
-        // Avoid to use unsafe block because of overflowing.
-        if cycle_counter >= 254 {
-            cycle_counter = 0;
-        }
+        heartbeat += 1;
+        if heartbeat > 5 { heartbeat = 0; }
     }
 }

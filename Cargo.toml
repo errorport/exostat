@@ -5,7 +5,7 @@ authors = ["Gergely Bencsik <becsegergely@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-systemstat = "*"
+systemstat = "0.2.3"
 chrono = "0.4.6"
 
 [profile.release]

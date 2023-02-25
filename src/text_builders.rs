@@ -15,27 +15,19 @@ pub fn get_keyboard_text() -> String {
 
 // Displaying CPU temp.
 // Icon: 
-pub fn get_cpu_text(system: &System) -> String {
-    match system.cpu_temp() {
-        Ok(_temp) => format!(" {}°C", _temp),
-        Err(_e) => "  ??".to_string(),
-    }
+pub fn get_cpu_text(temp: f32) -> String {
+        format!(" {:02}°C", temp)
 }
 
 // Displaying network traffic statistics.
 // Icons: " "
-pub fn get_netw_rxtx_text(
-    rx_bytes_diff:   &i64
-    , tx_bytes_diff: &i64
-    , rx_bytes:      &u32
-    , tx_bytes:      &u32
-    ) -> String {
+pub fn get_netw_rxtx_text(rx_bytes: &u32, tx_bytes: &u32) -> String {
         let mut upload_icon = "".to_string();
         let mut download_icon = "".to_string();
-        if *rx_bytes_diff > 0 {
+        if *rx_bytes > 0 {
             download_icon = format!("^c{}^{}^d^", config::ACTIVE_COLOR, download_icon);
         }
-        if *tx_bytes_diff > 0 {
+        if *tx_bytes > 0 {
             upload_icon = format!("^c{}^{}^d^", config::ACTIVE_COLOR, upload_icon);
         }
         format!(
@@ -86,3 +78,4 @@ pub fn get_binary_clock_text(now: &DateTime<chrono::Local>) -> String {
 pub fn get_clock_text(now: &DateTime<chrono::Local>) -> String {
     now.format("^w^%Y-%m-%d %H:%M:%S").to_string()
 }
+

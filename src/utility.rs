@@ -1,6 +1,9 @@
 use std::process::{Command, Stdio};
-use super::config;
+use std::io::Read;
+
 use systemstat::{Platform, System, Network, BTreeMap};
+
+use crate::config;
 
 // Updating X rootserver's window name.
 pub fn setxroot(_status_text: String) {
@@ -35,35 +38,16 @@ pub fn get_keyboard_ledmask() -> String {
         .spawn()
         .unwrap();
 
-    if let Some(_xset_output) = _xset_output_child.stdout.take() {
-        let mut _grep_output_child = Command::new("grep")
-            .arg("LED")
-            .stdin(_xset_output)
-            .stdout(Stdio::piped())
-            .spawn()
-            .unwrap();
-
-        _xset_output_child.wait().unwrap();
-
-        if let Some(_grep_output) = _grep_output_child.stdout.take() {
-            let mut _awk_output_child = Command::new("awk")
-                .arg("{print $10}")
-                .stdin(_grep_output)
-                .stdout(Stdio::piped())
-                .spawn()
-                .unwrap();
-
-            let mut _out = String::from_utf8(
-                _awk_output_child.wait_with_output().unwrap().stdout
-            ).unwrap();
-
-            _grep_output_child.wait().unwrap();
-
-            _out.pop();
-            ledmask = _out.parse::<u64>().unwrap() as u8;
-
+    let mut output = "".to_string();
+    if let Ok(_xset_output) = _xset_output_child.stdout.unwrap().read_to_string(&mut output) {
+        if let Some(position) = output.rfind("LED") {
+            // THese magic numbers dependent on xset's output.
+            output = output.split_at(position + 11).1.to_string();
+            output = output.split_at(8).0.to_string();
         }
+
     }
+    ledmask = output.parse::<u64>().unwrap() as u8;
 
     format!(
         "{}{}^f{}^"
@@ -151,68 +135,14 @@ pub fn number_to_binary_str(hour: u8, min: u8, sec: u8) -> String {
     binary_str
 }
 
-// Calculating network statistics.
-pub fn calculate_network_rxtx<'a>(
-    sys:                 &System
-    , netw:              &BTreeMap<String, Network>
-    , rx_bytes_previous: &'a mut u32
-    , tx_bytes_previous: &'a mut u32
-    , rx_bytes_counter:  &'a mut u32
-    , tx_bytes_counter:  &'a mut u32
-    , rx_bytes:          &'a mut u32
-    , tx_bytes:          &'a mut u32
-    , rx_bytes_diff:     &'a mut i64
-    , tx_bytes_diff:     &'a mut i64
-    , cycle_counter:     &u8
-    )
-{
-    let mut rx_bytes_summa = 0u32;
-    let mut tx_bytes_summa = 0u32;
-
-    for network_if in netw.values() {
-        match sys.network_stats(&network_if.name) {
-            Ok(netstat) => {
-                rx_bytes_summa += netstat.rx_bytes as u32;
-                tx_bytes_summa += netstat.tx_bytes as u32;
-            }
-            Err(e) => println!("{}", e),
-        }
-    }
-    *rx_bytes_diff = rx_bytes_summa as i64 - *rx_bytes_previous as i64;
-    if *rx_bytes_diff < 0 {
-        *rx_bytes_diff = 0;
-    }
-    *tx_bytes_diff = tx_bytes_summa as i64 - *tx_bytes_previous as i64;
-    if *tx_bytes_diff < 0 {
-        *tx_bytes_diff = 0;
-    }
-    *rx_bytes_counter += *rx_bytes_diff as u32;
-    *tx_bytes_counter += *tx_bytes_diff as u32;
-    *rx_bytes_previous = rx_bytes_summa;
-    *tx_bytes_previous = tx_bytes_summa;
-    if (*cycle_counter as u16) % (1000 / (config::CYCLE_LENGTH as u16)) == 0 {
-        *rx_bytes = *rx_bytes_counter;
-        *tx_bytes = *tx_bytes_counter;
-        *rx_bytes_counter = 0;
-        *tx_bytes_counter = 0;
+pub fn get_heartbeat_text(heartbeat: u8) -> String{
+    match heartbeat {
+        0 => " ".to_string(),
+        1 => "░".to_string(),
+        2 => "▒".to_string(),
+        3 => "▓".to_string(),
+        4 => "▒".to_string(),
+        5 => "░".to_string(),
+        _ => "X".to_string(),
     }
 }
-
-pub fn get_battery_pwr(sys: &System) -> u8 {
-    match sys.battery_life() {
-        Ok(battery) => {
-            (battery.remaining_capacity * 100.0) as u8
-        }
-        Err(_e) => {0u8}
-    }
-}
-
-pub fn get_battery_ac(sys: &System) -> bool {
-    match sys.on_ac_power() {
-        Ok(is_ac_plugged) => {
-            is_ac_plugged
-        }
-        Err(_e) => {false}
-    }
-}
-
