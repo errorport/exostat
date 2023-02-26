@@ -45,6 +45,7 @@ fn main() {
     let mut cmd_xset = Command::new("xset");
 
     let mut now = chrono::Local::now();
+    let mut _status_text = "".to_string();
 
     loop {
         (rx_bytes, tx_bytes) = Arc::clone(&network_util).lock().unwrap().get_rxtx();
@@ -52,7 +53,7 @@ fn main() {
         battery_ac = Arc::clone(&battery_util).lock().unwrap().get_battery_ac();
         cpu_temperature = Arc::clone(&cpu_util).lock().unwrap().get_temperature();
 
-        let mut _status_text: String = "".to_string();
+        _status_text.clear();
         now = chrono::Local::now();
 
         _status_text = format!(
@@ -97,7 +98,7 @@ fn main() {
             , text_builders::get_clock_text(&now)
         );
         //println!("{}", _status_text);
-        utility::setxroot(&mut cmd_xsetroot, _status_text);
+        utility::setxroot(&mut cmd_xsetroot, &_status_text);
         thread::sleep(sleep_time);
         heartbeat += 1;
     }

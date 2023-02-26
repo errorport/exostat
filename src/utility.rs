@@ -7,7 +7,7 @@ use crate::config;
 
 // Updating X rootserver's window name.
 #[inline]
-pub fn setxroot(cmd: &mut Command, _status_text: String) {
+pub fn setxroot(cmd: &mut Command, _status_text: &String) {
     let _output = cmd.arg("-name").arg(_status_text).output()
         .expect("Failed to set X root window name!");
     // println!("setxroot status: {:?}", output.status);
