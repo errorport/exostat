@@ -1,3 +1,5 @@
+use std::process::Command;
+
 use systemstat::{Platform, System};
 use chrono::{Timelike, DateTime};
 use super::config;
@@ -6,11 +8,11 @@ use super::utility;
 // Displaying keyboard layout
 // Icon: 
 #[inline]
-pub fn get_keyboard_text() -> String {
+pub fn get_keyboard_text(cmd_layout: &mut Command, cmd_leds: &mut Command) -> String {
     format!(
         " {} {}"
-        , utility::get_keyboard_layout()
-        , utility::get_keyboard_ledmask()
+        , utility::get_keyboard_layout(cmd_layout)
+        , utility::get_keyboard_ledmask(cmd_leds)
     )
 }
 

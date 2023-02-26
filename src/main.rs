@@ -5,6 +5,7 @@ extern crate systemstat;
 
 use std::{thread, time};
 use std::sync::{Arc, Mutex};
+use std::process::{Command, Stdio};
 use systemstat::{Platform, System};
 
 pub mod utility;
@@ -38,6 +39,10 @@ fn main() {
     let cpu_util = Arc::new(Mutex::new(CPUUtil::default()));
     CPUUtil::spawn_cpustat(Arc::clone(&cpu_util), Arc::clone(&sys));
     let mut cpu_temperature = 0f32;
+    // Subprocesses
+    let mut cmd_xsetroot = Command::new("xsetroot");
+    let mut cmd_setxkbmap = Command::new("setxkbmap");
+    let mut cmd_xset = Command::new("xset");
 
     let mut now = chrono::Local::now();
 
@@ -58,7 +63,7 @@ fn main() {
         _status_text = format!(
             "{} {} |"
             , _status_text
-            , text_builders::get_keyboard_text()
+            , text_builders::get_keyboard_text(&mut cmd_setxkbmap, &mut cmd_xset)
         );
 
         _status_text = format!(
@@ -92,7 +97,7 @@ fn main() {
             , text_builders::get_clock_text(&now)
         );
         //println!("{}", _status_text);
-        utility::setxroot(_status_text);
+        utility::setxroot(&mut cmd_xsetroot, _status_text);
         thread::sleep(sleep_time);
         heartbeat += 1;
     }
