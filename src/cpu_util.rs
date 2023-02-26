@@ -12,10 +12,12 @@ pub struct CPUUtil {
 }
 
 impl CPUUtil {
+    #[inline]
     pub fn get_temperature(&self) -> f32 {
         self.temperature
     }
 
+    #[inline]
     fn update_cpu_info(&mut self, sys: Arc<Mutex<System>>) -> Result<(), std::io::Error> {
         let lock = sys.lock().unwrap();
         match lock.cpu_temp() {
@@ -27,6 +29,7 @@ impl CPUUtil {
         Ok(())
     }
 
+    #[inline]
     pub fn spawn_cpustat(cpu_util: Arc<Mutex<Self>>, sys: Arc<Mutex<System>>) {
         thread::spawn(move || {
             loop {

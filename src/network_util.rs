@@ -14,6 +14,7 @@ pub struct NetworkUtil {
 }
 
 impl NetworkUtil {
+    #[inline]
     pub fn get_rxtx(&self) -> (u32, u32) {
         (self.rx_bytes_diff, self.tx_bytes_diff)
     }
@@ -23,6 +24,7 @@ impl NetworkUtil {
      *  network interface. Therefore we have to accumulate the difference between readouts
      *  and reset them in every second.
      */
+    #[inline]
     fn calc_rxtx(&mut self, sys: Arc<Mutex<System>>) -> Result<(), std::io::Error> {
         let mut netw: BTreeMap<_, _>;
         let lock = sys.lock().unwrap();
@@ -53,6 +55,7 @@ impl NetworkUtil {
         Ok(())
     }
 
+    #[inline]
     pub fn spawn_networkstat(network_util: Arc<Mutex<Self>>, sys: Arc<Mutex<System>>) {
         thread::spawn(move || {
             loop {

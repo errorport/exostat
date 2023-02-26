@@ -12,14 +12,17 @@ pub struct BatteryUtil {
 }
 
 impl BatteryUtil {
+    #[inline]
     pub fn get_battery_pwr(&self) -> u8 {
         self.capacity
     }
 
+    #[inline]
     pub fn get_battery_ac(&self) -> bool {
         self.ac
     }
 
+    #[inline]
     fn update_battery_info(&mut self, sys: Arc<Mutex<System>>) -> Result<(), std::io::Error> {
         let lock = sys.lock().unwrap();
         match lock.battery_life() {
@@ -37,6 +40,7 @@ impl BatteryUtil {
         Ok(())
     }
 
+    #[inline]
     pub fn spawn_batterystat(battery_util: Arc<Mutex<Self>>, sys: Arc<Mutex<System>>) {
         thread::spawn(move || {
             loop {

@@ -5,6 +5,7 @@ use super::utility;
 
 // Displaying keyboard layout
 // Icon: 
+#[inline]
 pub fn get_keyboard_text() -> String {
     format!(
         " {} {}"
@@ -15,12 +16,14 @@ pub fn get_keyboard_text() -> String {
 
 // Displaying CPU temp.
 // Icon: 
+#[inline]
 pub fn get_cpu_text(temp: f32) -> String {
         format!(" {:02}°C", temp)
 }
 
 // Displaying network traffic statistics.
 // Icons: " "
+#[inline]
 pub fn get_netw_rxtx_text(rx_bytes: &u32, tx_bytes: &u32) -> String {
         let mut upload_icon = "".to_string();
         let mut download_icon = "".to_string();
@@ -41,6 +44,7 @@ pub fn get_netw_rxtx_text(rx_bytes: &u32, tx_bytes: &u32) -> String {
 
 // Displaying battery status.
 // Icons:         
+#[inline]
 pub fn get_battery_text(
     pwr: &u8
     , ac: &bool
@@ -66,6 +70,7 @@ pub fn get_battery_text(
 }
 
 // Displaying binary-watch format time.
+#[inline]
 pub fn get_binary_clock_text(now: &DateTime<chrono::Local>) -> String {
     utility::number_to_binary_str(
         now.time().hour() as u8
@@ -75,6 +80,7 @@ pub fn get_binary_clock_text(now: &DateTime<chrono::Local>) -> String {
 }
 
 // Displaying time.
+#[inline]
 pub fn get_clock_text(now: &DateTime<chrono::Local>) -> String {
     now.format("^w^%Y-%m-%d %H:%M:%S").to_string()
 }

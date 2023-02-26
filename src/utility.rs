@@ -6,6 +6,7 @@ use systemstat::{Platform, System, Network, BTreeMap};
 use crate::config;
 
 // Updating X rootserver's window name.
+#[inline]
 pub fn setxroot(_status_text: String) {
     let _output = Command::new("xsetroot")
         .arg("-name")
@@ -16,6 +17,7 @@ pub fn setxroot(_status_text: String) {
 }
 
 // Running keyboard layout getter script.
+#[inline]
 pub fn get_keyboard_layout() -> String {
     let _output = Command::new("setxkbmap")
         .arg("-query")
@@ -28,6 +30,7 @@ pub fn get_keyboard_layout() -> String {
 
 // Getting numlock and capslock indicators.
 // xset q | grep 'LED mask' | awk '{print $10}'
+#[inline]
 pub fn get_keyboard_ledmask() -> String {
 
     let mut ledmask: u8 = 0;
@@ -67,6 +70,7 @@ pub fn get_keyboard_ledmask() -> String {
     )
 }
 
+#[inline]
 fn place_dot(
     num: u8
     , vertical_offset: u8
@@ -100,6 +104,7 @@ fn place_dot(
 
 // Clock stuff.
 // Works with only exodwm or text-color patched dwm.
+#[inline]
 pub fn number_to_binary_str(hour: u8, min: u8, sec: u8) -> String {
     let mut binary_str: String = "".to_string();
     for bit in 0..8 {
@@ -135,6 +140,7 @@ pub fn number_to_binary_str(hour: u8, min: u8, sec: u8) -> String {
     binary_str
 }
 
+#[inline]
 pub fn get_heartbeat_text(heartbeat: u8) -> String{
     match heartbeat {
         0 => " ".to_string(),
