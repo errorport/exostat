@@ -9,11 +9,11 @@ systemstat = "0.2.3"
 chrono = "0.4.6"
 
 [profile.release]
-opt-level = 3
+opt-level = 2
 overflow-checks = false
-lto = true
+lto = "fat"
 codegen-units = 1
-debug = false
+debug = 0
 rpath = false
 incremental = false
 debug-assertions = false
