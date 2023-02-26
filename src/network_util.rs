@@ -1,7 +1,7 @@
 use std::sync::{Arc, Mutex};
 use std::{thread, time};
 
-use systemstat::{System, Platform, BTreeMap};
+use systemstat::{System, Platform};
 
 #[derive(Default, Debug)]
 pub struct NetworkUtil {
@@ -25,13 +25,11 @@ impl NetworkUtil {
      *  and reset them in every second.
      */
     #[inline]
-    fn calc_rxtx(&mut self, sys: Arc<Mutex<System>>) -> Result<(), std::io::Error> {
-        let mut netw: BTreeMap<_, _>;
+    fn calc_rxtx(&mut self, sys: Arc<Mutex<System>>) {
+        // Lets assume that we will not crash on these. If we do, it is nothing we can do
+        // under the scope of this software.
         let lock = sys.lock().unwrap();
-        match lock.networks() {
-            Ok(networks) => { netw = networks; },
-            Err(e) => { return Err(e); }
-        }
+        let netw = lock.networks().unwrap();
 
         self.rx_bytes_summa = 0;
         self.tx_bytes_summa = 0;
@@ -41,14 +39,13 @@ impl NetworkUtil {
                     self.rx_bytes_summa += netstat.rx_bytes.as_u64() as u32;
                     self.tx_bytes_summa += netstat.tx_bytes.as_u64() as u32;
                 }
-                Err(e) => println!("{}", e),
+                Err(_) => {},
             }
         }
         self.rx_bytes_diff = self.rx_bytes_summa - self.rx_bytes_previous;
         self.tx_bytes_diff = self.tx_bytes_summa - self.tx_bytes_previous;
         self.rx_bytes_previous = self.rx_bytes_summa;
         self.tx_bytes_previous = self.tx_bytes_summa;
-        Ok(())
     }
 
     #[inline]

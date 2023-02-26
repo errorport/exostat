@@ -1,7 +1,4 @@
-use std::process::{Command, Stdio};
-use std::io::Read;
-
-use systemstat::{Platform, System, Network, BTreeMap};
+use std::process::Command;
 
 use crate::config;
 
@@ -27,9 +24,6 @@ pub fn get_keyboard_layout(cmd: &mut Command) -> String {
 // xset q | grep 'LED mask' | awk '{print $10}'
 #[inline]
 pub fn get_keyboard_ledmask(cmd: &mut Command) -> String {
-
-    let mut ledmask: u8 = 0;
-
     let mut _output = cmd.arg("q").output().expect("??");
 
     let mut output = String::from_utf8(_output.stdout).unwrap();
@@ -39,7 +33,7 @@ pub fn get_keyboard_ledmask(cmd: &mut Command) -> String {
         output = output.split_at(8).0.to_string();
     }
 
-    ledmask = output.parse::<u8>().unwrap();
+    let ledmask = output.parse::<u8>().unwrap();
 
     format!(
         "{}{}^f{}^"

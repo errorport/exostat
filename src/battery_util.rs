@@ -23,21 +23,10 @@ impl BatteryUtil {
     }
 
     #[inline]
-    fn update_battery_info(&mut self, sys: Arc<Mutex<System>>) -> Result<(), std::io::Error> {
+    fn update_battery_info(&mut self, sys: Arc<Mutex<System>>) {
         let lock = sys.lock().unwrap();
-        match lock.battery_life() {
-            Ok(battery) => {
-                self.capacity = (battery.remaining_capacity * 100.0) as u8;
-            },
-            Err(e) => { return Err(e); },
-        }
-        match lock.on_ac_power() {
-            Ok(is_ac_plugged) => {
-                self.ac = is_ac_plugged;
-            },
-            Err(e) => { return Err(e); }
-        }
-        Ok(())
+        self.capacity = (lock.battery_life().unwrap().remaining_capacity * 100.0) as u8;
+        self.ac = lock.on_ac_power().unwrap();
     }
 
     #[inline]

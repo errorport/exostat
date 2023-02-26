@@ -5,7 +5,7 @@ extern crate systemstat;
 
 use std::{thread, time};
 use std::sync::{Arc, Mutex};
-use std::process::{Command, Stdio};
+use std::process::Command;
 use systemstat::{Platform, System};
 
 pub mod utility;
@@ -28,17 +28,17 @@ fn main() {
     // Networking resources
     let network_util = Arc::new(Mutex::new(NetworkUtil::default()));
     NetworkUtil::spawn_networkstat(Arc::clone(&network_util), Arc::clone(&sys));
-    let mut rx_bytes = 0u32;
-    let mut tx_bytes = 0u32;
+    let mut rx_bytes: u32;
+    let mut tx_bytes: u32;
     // Battery info resources
     let battery_util = Arc::new(Mutex::new(BatteryUtil::default()));
     BatteryUtil::spawn_batterystat(Arc::clone(&battery_util), Arc::clone(&sys));
-    let mut battery_capacity = 0u8;
-    let mut battery_ac = false;
+    let mut battery_capacity: u8;
+    let mut battery_ac: bool;
     // CPU info resources
     let cpu_util = Arc::new(Mutex::new(CPUUtil::default()));
     CPUUtil::spawn_cpustat(Arc::clone(&cpu_util), Arc::clone(&sys));
-    let mut cpu_temperature = 0f32;
+    let mut cpu_temperature: f32;
     // Subprocesses
     let mut cmd_xsetroot = Command::new("xsetroot");
     let mut cmd_setxkbmap = Command::new("setxkbmap");

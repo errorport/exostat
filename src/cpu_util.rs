@@ -18,15 +18,9 @@ impl CPUUtil {
     }
 
     #[inline]
-    fn update_cpu_info(&mut self, sys: Arc<Mutex<System>>) -> Result<(), std::io::Error> {
+    fn update_cpu_info(&mut self, sys: Arc<Mutex<System>>) {
         let lock = sys.lock().unwrap();
-        match lock.cpu_temp() {
-            Ok(temp) => {
-                self.temperature = temp;
-            },
-            Err(e) => { return Err(e); },
-        }
-        Ok(())
+        self.temperature = lock.cpu_temp().unwrap();
     }
 
     #[inline]

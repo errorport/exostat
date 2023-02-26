@@ -1,6 +1,5 @@
 use std::process::Command;
 
-use systemstat::{Platform, System};
 use chrono::{Timelike, DateTime};
 use super::config;
 use super::utility;
