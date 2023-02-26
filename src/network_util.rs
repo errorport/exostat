@@ -53,12 +53,13 @@ impl NetworkUtil {
 
     #[inline]
     pub fn spawn_networkstat(network_util: Arc<Mutex<Self>>, sys: Arc<Mutex<System>>) {
+        // Strict 1 sec is required because of measurement accurance!
+        // Do not change / call from configuration!
+        let sleep_time = time::Duration::from_millis(1000);
         thread::spawn(move || {
             loop {
                 network_util.lock().unwrap().calc_rxtx(sys.clone());
-                // Strict 1 sec is required because of measurement accurance!
-                // Do not change / call from configuration!
-                thread::sleep(time::Duration::from_millis(1000));
+                thread::sleep(sleep_time);
             }
         });
     }

@@ -42,10 +42,11 @@ impl BatteryUtil {
 
     #[inline]
     pub fn spawn_batterystat(battery_util: Arc<Mutex<Self>>, sys: Arc<Mutex<System>>) {
+        let sleep_time = time::Duration::from_millis(config::BATTERY_READ_CYCLE_ms.into());
         thread::spawn(move || {
             loop {
                 battery_util.lock().unwrap().update_battery_info(sys.clone());
-                thread::sleep(time::Duration::from_millis(config::BATTERY_READ_CYCLE_ms.into()));
+                thread::sleep(sleep_time);
             }
         });
     }
