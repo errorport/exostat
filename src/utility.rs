@@ -50,7 +50,7 @@ pub fn get_keyboard_ledmask() -> String {
         }
 
     }
-    ledmask = output.parse::<u64>().unwrap() as u8;
+    ledmask = output.parse::<u8>().unwrap();
 
     format!(
         "{}{}^f{}^"
