@@ -36,6 +36,7 @@ impl CPUUtil {
         thread::spawn(move || {
             loop {
                 cpu_util.lock().unwrap().update_cpu_info();
+                thread::yield_now();
                 thread::sleep(sleep_time);
             }
         });

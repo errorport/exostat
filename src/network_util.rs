@@ -68,6 +68,7 @@ impl NetworkUtil {
         thread::spawn(move || {
             loop {
                 network_util.lock().unwrap().calc_rxtx();
+                thread::yield_now();
                 thread::sleep(sleep_time);
             }
         });

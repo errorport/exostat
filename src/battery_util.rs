@@ -43,6 +43,7 @@ impl BatteryUtil {
         thread::spawn(move || {
             loop {
                 battery_util.lock().unwrap().update_battery_info();
+                thread::yield_now();
                 thread::sleep(sleep_time);
             }
         });

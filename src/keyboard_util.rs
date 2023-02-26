@@ -50,6 +50,7 @@ impl KbdUtil {
             let lock_key = Arc::new(LockKey::new());
             loop {
                 kdb_util.lock().unwrap().update(&mut cmd_setxkbmap, lock_key.clone());
+                thread::yield_now();
                 thread::sleep(sleep_time);
             }
         });
