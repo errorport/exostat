@@ -28,21 +28,20 @@ fn main() {
     let sleep_time = time::Duration::from_millis(config::CYCLE_LENGTH_ms as u64);
 
     // Initializing resources
-    let sys  = Arc::new(Mutex::new(System::new()));
     let mut heartbeat = 0u8;
     // Networking resources
-    let network_util = Arc::new(Mutex::new(NetworkUtil::default()));
-    NetworkUtil::spawn_networkstat(Arc::clone(&network_util), Arc::clone(&sys));
-    let mut rx_bytes: u32;
-    let mut tx_bytes: u32;
+    let network_util = Arc::new(Mutex::new(NetworkUtil::new()));
+    NetworkUtil::spawn_networkstat(Arc::clone(&network_util));
+    let mut rx_bytes = 0u32;
+    let mut tx_bytes = 0u32;
     // Battery info resources
-    let battery_util = Arc::new(Mutex::new(BatteryUtil::default()));
-    BatteryUtil::spawn_batterystat(Arc::clone(&battery_util), Arc::clone(&sys));
-    let mut battery_capacity: u8;
+    let battery_util = Arc::new(Mutex::new(BatteryUtil::new()));
+    BatteryUtil::spawn_batterystat(Arc::clone(&battery_util));
+    let mut battery_capacity: f32;
     let mut battery_ac: bool;
     // CPU info resources
-    let cpu_util = Arc::new(Mutex::new(CPUUtil::default()));
-    CPUUtil::spawn_cpustat(Arc::clone(&cpu_util), Arc::clone(&sys));
+    let cpu_util = Arc::new(Mutex::new(CPUUtil::new()));
+    CPUUtil::spawn_cpustat(Arc::clone(&cpu_util));
     let mut cpu_temperature: f32;
     // Keyboard resources
     let kbd_util = Arc::new(Mutex::new(KbdUtil::new()));
@@ -56,7 +55,9 @@ fn main() {
     let mut _status_text = "".to_string();
 
     loop {
-        (rx_bytes, tx_bytes) = Arc::clone(&network_util).lock().unwrap().get_rxtx();
+        if let Ok(lock) = Arc::clone(&network_util).lock() {
+            (rx_bytes, tx_bytes) = lock.get_rxtx();
+        }
         battery_capacity = Arc::clone(&battery_util).lock().unwrap().get_battery_pwr();
         battery_ac = Arc::clone(&battery_util).lock().unwrap().get_battery_ac();
         cpu_temperature = Arc::clone(&cpu_util).lock().unwrap().get_temperature();

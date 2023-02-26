@@ -5,15 +5,24 @@ use systemstat::{System, Platform};
 
 use crate::config;
 
-#[derive(Default, Debug)]
 pub struct BatteryUtil {
-    pub capacity: u8,
-    pub ac: bool,
+    sys: System,
+    capacity: f32,
+    ac: bool,
 }
 
 impl BatteryUtil {
+
+    pub fn new() -> Self {
+        BatteryUtil {
+            sys: System::new(),
+            capacity: 0.0,
+            ac: false,
+        }
+    }
+
     #[inline]
-    pub fn get_battery_pwr(&self) -> u8 {
+    pub fn get_battery_pwr(&self) -> f32 {
         self.capacity
     }
 
@@ -23,18 +32,17 @@ impl BatteryUtil {
     }
 
     #[inline]
-    fn update_battery_info(&mut self, sys: Arc<Mutex<System>>) {
-        let lock = sys.lock().unwrap();
-        self.capacity = (lock.battery_life().unwrap().remaining_capacity * 100.0) as u8;
-        self.ac = lock.on_ac_power().unwrap();
+    fn update_battery_info(&mut self) {
+        self.capacity = self.sys.battery_life().unwrap().remaining_capacity * 100.0;
+        self.ac = self.sys.on_ac_power().unwrap();
     }
 
     #[inline]
-    pub fn spawn_batterystat(battery_util: Arc<Mutex<Self>>, sys: Arc<Mutex<System>>) {
+    pub fn spawn_batterystat(battery_util: Arc<Mutex<Self>>) {
         let sleep_time = time::Duration::from_millis(config::BATTERY_READ_CYCLE_ms.into());
         thread::spawn(move || {
             loop {
-                battery_util.lock().unwrap().update_battery_info(sys.clone());
+                battery_util.lock().unwrap().update_battery_info();
                 thread::sleep(sleep_time);
             }
         });

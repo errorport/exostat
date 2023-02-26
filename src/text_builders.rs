@@ -47,25 +47,25 @@ pub fn get_netw_rxtx_text(rx_bytes: &u32, tx_bytes: &u32) -> String {
 // Icons:         
 #[inline]
 pub fn get_battery_text(
-    pwr: &u8
+    pwr: &f32
     , ac: &bool
     ) -> String {
     //let mut _battery_icon = "".to_string();
     let mut _battery_icon = "".to_string();
-    if *pwr < 80 {
+    if *pwr < 80.0 {
         _battery_icon = "".to_string();
-    } else if *pwr < 60 {
+    } else if *pwr < 60.0 {
         _battery_icon = "".to_string();
-    } else if *pwr < 40 {
+    } else if *pwr < 40.0 {
         _battery_icon = "".to_string();
-    } else if *pwr < 20 {
+    } else if *pwr < 20.0 {
         _battery_icon = "".to_string();
     }
     if *ac {
         _battery_icon
             = format!("^c{}^{}^d^", config::ACTIVE_COLOR, _battery_icon);
     }
-    format!("{} {:02}%", _battery_icon, *pwr)
+    format!("{} {:02.0}%", _battery_icon, *pwr)
 }
 
 // Displaying binary-watch format time.
