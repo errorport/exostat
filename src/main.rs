@@ -45,10 +45,10 @@ fn main() {
     CPUUtil::spawn_cpustat(Arc::clone(&cpu_util), Arc::clone(&sys));
     let mut cpu_temperature: f32;
     // Keyboard resources
-    let kbd_util = Arc::new(Mutex::new(KbdUtil::default()));
+    let kbd_util = Arc::new(Mutex::new(KbdUtil::new()));
     KbdUtil::spawn_kbdstat(Arc::clone(&kbd_util));
     let mut keyboard_layout: String;
-    let mut keyboard_ledmask: u8;
+    let mut keyboard_ledmask: (bool, bool);
     // XSETROOT
     let mut cmd_xsetroot = Command::new("xsetroot");
 

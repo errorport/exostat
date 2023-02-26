@@ -9,17 +9,17 @@ pub fn setxroot(cmd: &mut Command, _status_text: &String) {
 }
 
 #[inline]
-pub fn get_keyboard_ledmask_str(ledmask: u8) -> String {
+pub fn get_keyboard_ledmask_str(ledmask: (bool, bool)) -> String {
     format!(
         "{}{}^f{}^"
         , place_dot(
-            ledmask & 0x01 // CAPS lock
+            ledmask.0 as u8 // CAPS lock
             , 3
             , config::KEYLOCK_DOT_HORIZONTAL_SPACING
             , config::KEYLOCK_DOT_SIZE
         )
         , place_dot(
-            ledmask >> 1 & 0x01 // NUM lock
+            ledmask.1 as u8 // NUM lock
             , 12
             , config::KEYLOCK_DOT_HORIZONTAL_SPACING
             , config::KEYLOCK_DOT_SIZE

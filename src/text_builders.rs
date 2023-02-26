@@ -7,7 +7,7 @@ use super::utility;
 // Displaying keyboard layout
 // Icon: 
 #[inline]
-pub fn get_keyboard_text(keyboard_layout: String, keyboard_ledmask: u8) -> String {
+pub fn get_keyboard_text(keyboard_layout: String, keyboard_ledmask: (bool, bool)) -> String {
     format!(
         " {} {}"
         , keyboard_layout
