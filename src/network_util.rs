@@ -44,12 +44,8 @@ impl NetworkUtil {
                 Err(e) => println!("{}", e),
             }
         }
-        if self.rx_bytes_summa > self.rx_bytes_previous {
-            self.rx_bytes_diff = self.rx_bytes_summa - self.rx_bytes_previous;
-        }
-        if self.tx_bytes_summa > self.tx_bytes_previous {
-            self.tx_bytes_diff = self.tx_bytes_summa - self.tx_bytes_previous;
-        }
+        self.rx_bytes_diff = self.rx_bytes_summa - self.rx_bytes_previous;
+        self.tx_bytes_diff = self.tx_bytes_summa - self.tx_bytes_previous;
         self.rx_bytes_previous = self.rx_bytes_summa;
         self.tx_bytes_previous = self.tx_bytes_summa;
         Ok(())
