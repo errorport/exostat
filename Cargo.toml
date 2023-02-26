@@ -7,13 +7,14 @@ edition = "2018"
 [dependencies]
 systemstat = "0.2.3"
 chrono = "0.4.6"
+mimalloc = { version = "0.1.17", default-features = false }
 
 [profile.release]
 opt-level = 2
 overflow-checks = false
 lto = "fat"
 codegen-units = 1
-debug = 0
+debug = true
 rpath = false
 incremental = false
 debug-assertions = false

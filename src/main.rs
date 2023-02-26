@@ -1,5 +1,8 @@
 #[allow(non_snake_case)]
 
+#[global_allocator]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 extern crate chrono;
 extern crate systemstat;
 
