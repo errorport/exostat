@@ -85,3 +85,9 @@ pub fn get_clock_text(now: &DateTime<chrono::Local>) -> String {
     now.format("^w^%Y-%m-%d %H:%M:%S").to_string()
 }
 
+#[inline]
+pub fn get_heartbeat_text(hb: u8) -> String {
+    if hb % 2 == 0 { return "+".to_string() }
+    "-".to_string()
+}
+

@@ -52,7 +52,7 @@ fn main() {
 
         _status_text = format!(
             "{} "
-            , utility::get_heartbeat_text(heartbeat)
+            , text_builders::get_heartbeat_text(heartbeat)
         );
 
         _status_text = format!(
@@ -95,6 +95,5 @@ fn main() {
         utility::setxroot(_status_text);
         thread::sleep(sleep_time);
         heartbeat += 1;
-        if heartbeat > 5 { heartbeat = 0; }
     }
 }

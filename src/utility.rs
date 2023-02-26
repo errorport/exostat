@@ -140,15 +140,3 @@ pub fn number_to_binary_str(hour: u8, min: u8, sec: u8) -> String {
     binary_str
 }
 
-#[inline]
-pub fn get_heartbeat_text(heartbeat: u8) -> String{
-    match heartbeat {
-        0 => " ".to_string(),
-        1 => "░".to_string(),
-        2 => "▒".to_string(),
-        3 => "▓".to_string(),
-        4 => "▒".to_string(),
-        5 => "░".to_string(),
-        _ => "X".to_string(),
-    }
-}
