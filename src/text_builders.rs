@@ -7,11 +7,11 @@ use super::utility;
 // Displaying keyboard layout
 // Icon: 
 #[inline]
-pub fn get_keyboard_text(cmd_layout: &mut Command, cmd_leds: &mut Command) -> String {
+pub fn get_keyboard_text(keyboard_layout: String, keyboard_ledmask: u8) -> String {
     format!(
         " {} {}"
-        , utility::get_keyboard_layout(cmd_layout)
-        , utility::get_keyboard_ledmask(cmd_leds)
+        , keyboard_layout
+        , utility::get_keyboard_ledmask_str(keyboard_ledmask)
     )
 }
 

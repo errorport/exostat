@@ -17,10 +17,12 @@ mod text_builders;
 mod network_util;
 mod battery_util;
 mod cpu_util;
+mod keyboard_util;
 
 use crate::network_util::NetworkUtil;
 use crate::battery_util::BatteryUtil;
 use crate::cpu_util::CPUUtil;
+use crate::keyboard_util::KbdUtil;
 
 fn main() {
     let sleep_time = time::Duration::from_millis(config::CYCLE_LENGTH_ms as u64);
@@ -42,10 +44,13 @@ fn main() {
     let cpu_util = Arc::new(Mutex::new(CPUUtil::default()));
     CPUUtil::spawn_cpustat(Arc::clone(&cpu_util), Arc::clone(&sys));
     let mut cpu_temperature: f32;
-    // Subprocesses
+    // Keyboard resources
+    let kbd_util = Arc::new(Mutex::new(KbdUtil::default()));
+    KbdUtil::spawn_kbdstat(Arc::clone(&kbd_util));
+    let mut keyboard_layout: String;
+    let mut keyboard_ledmask: u8;
+    // XSETROOT
     let mut cmd_xsetroot = Command::new("xsetroot");
-    let mut cmd_setxkbmap = Command::new("setxkbmap");
-    let mut cmd_xset = Command::new("xset");
 
     let mut now = chrono::Local::now();
     let mut _status_text = "".to_string();
@@ -55,6 +60,8 @@ fn main() {
         battery_capacity = Arc::clone(&battery_util).lock().unwrap().get_battery_pwr();
         battery_ac = Arc::clone(&battery_util).lock().unwrap().get_battery_ac();
         cpu_temperature = Arc::clone(&cpu_util).lock().unwrap().get_temperature();
+        keyboard_layout = Arc::clone(&kbd_util).lock().unwrap().get_keyboard_layout();
+        keyboard_ledmask = Arc::clone(&kbd_util).lock().unwrap().get_ledmask();
 
         _status_text.clear();
         now = chrono::Local::now();
@@ -67,7 +74,7 @@ fn main() {
         _status_text = format!(
             "{} {} |"
             , _status_text
-            , text_builders::get_keyboard_text(&mut cmd_setxkbmap, &mut cmd_xset)
+            , text_builders::get_keyboard_text(keyboard_layout.clone(), keyboard_ledmask)
         );
 
         _status_text = format!(

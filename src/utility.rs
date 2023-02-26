@@ -5,36 +5,11 @@ use crate::config;
 // Updating X rootserver's window name.
 #[inline]
 pub fn setxroot(cmd: &mut Command, _status_text: &String) {
-    let _output = cmd.arg("-name").arg(_status_text).output()
-        .expect("Failed to set X root window name!");
-    // println!("setxroot status: {:?}", output.status);
+    let _output = cmd.arg("-name").arg(_status_text).output().expect("Failed to set X root window name!");
 }
 
-// Running keyboard layout getter script.
 #[inline]
-pub fn get_keyboard_layout(cmd: &mut Command) -> String {
-    let _output = cmd.arg("-query").output()
-        .expect("??");
-    String::from_utf8(
-        _output.stdout[_output.stdout.len()-3..].to_vec()
-    ).unwrap().replace("\n", "").to_uppercase()
-}
-
-// Getting numlock and capslock indicators.
-// xset q | grep 'LED mask' | awk '{print $10}'
-#[inline]
-pub fn get_keyboard_ledmask(cmd: &mut Command) -> String {
-    let mut _output = cmd.arg("q").output().expect("??");
-
-    let mut output = String::from_utf8(_output.stdout).unwrap();
-    if let Some(position) = output.rfind("LED") {
-        // THese magic numbers dependent on xset's output.
-        output = output.split_at(position + 11).1.to_string();
-        output = output.split_at(8).0.to_string();
-    }
-
-    let ledmask = output.parse::<u8>().unwrap();
-
+pub fn get_keyboard_ledmask_str(ledmask: u8) -> String {
     format!(
         "{}{}^f{}^"
         , place_dot(
