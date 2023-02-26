@@ -32,16 +32,14 @@ impl KbdUtil {
 
     // Running keyboard layout getter script.
     #[inline]
-    fn update(&mut self, cmd: &mut Command) {
-        let lock_key = LockKey::new();
+    fn update(&mut self, cmd: &mut Command, lock_key: Arc<LockKey>) {
         self.numlock = lock_key.state(LockKeys::NumberLock).unwrap();
         self.capslock = lock_key.state(LockKeys::CapitalLock).unwrap();
 
-        let _output = cmd.arg("-query").output().expect("??");
-        self.layout = String::from_utf8(
-            _output.stdout[_output.stdout.len()-3..].to_vec()
-        ).unwrap().replace("\n", "").to_uppercase()
-
+        let _output = cmd.arg("-query").output().unwrap();
+        self.layout = String::from_utf8(_output.stdout).unwrap()
+            .split('\n').collect::<Vec<&str>>()[2].to_string()
+            .replace("layout:", "").replace(" ", "");
     }
 
     #[inline]
@@ -49,8 +47,9 @@ impl KbdUtil {
         let sleep_time = time::Duration::from_millis(config::KDB_READ_CYCLE_ms.into());
         let mut cmd_setxkbmap = Command::new("setxkbmap");
         thread::spawn(move || {
+            let lock_key = Arc::new(LockKey::new());
             loop {
-                kdb_util.lock().unwrap().update(&mut cmd_setxkbmap);
+                kdb_util.lock().unwrap().update(&mut cmd_setxkbmap, lock_key.clone());
                 thread::sleep(sleep_time);
             }
         });
