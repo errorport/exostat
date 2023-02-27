@@ -9,6 +9,8 @@ extern crate systemstat;
 use std::{thread, time};
 use std::sync::{Arc, Mutex};
 use std::process::Command;
+use std::num::Wrapping;
+
 use systemstat::{Platform, System};
 
 pub mod utility;
@@ -28,7 +30,7 @@ fn main() {
     let sleep_time = time::Duration::from_millis(config::CYCLE_LENGTH_ms as u64);
 
     // Initializing resources
-    let mut heartbeat = 0u8;
+    let mut heartbeat = Wrapping(0u8);
     // Networking resources
     let network_util = Arc::new(Mutex::new(NetworkUtil::new()));
     NetworkUtil::spawn_networkstat(Arc::clone(&network_util));
@@ -37,39 +39,43 @@ fn main() {
     // Battery info resources
     let battery_util = Arc::new(Mutex::new(BatteryUtil::new()));
     BatteryUtil::spawn_batterystat(Arc::clone(&battery_util));
-    let mut battery_capacity: f32;
-    let mut battery_ac: bool;
+    let mut battery_capacity = 0f32;
+    let mut battery_ac = false;
     // CPU info resources
     let cpu_util = Arc::new(Mutex::new(CPUUtil::new()));
     CPUUtil::spawn_cpustat(Arc::clone(&cpu_util));
-    let mut cpu_temperature: f32;
+    let mut cpu_temperature = 0f32;
     // Keyboard resources
     let kbd_util = Arc::new(Mutex::new(KbdUtil::new()));
     KbdUtil::spawn_kbdstat(Arc::clone(&kbd_util));
-    let mut keyboard_layout: String;
-    let mut keyboard_ledmask: (bool, bool);
-    // XSETROOT
-    let mut cmd_xsetroot = Command::new("xsetroot");
+    let mut keyboard_layout: String = "".to_string();
+    let mut keyboard_ledmask = (false, false);
 
     let mut now = chrono::Local::now();
     let mut _status_text = "".to_string();
 
     loop {
-        if let Ok(lock) = Arc::clone(&network_util).lock() {
+        if let Ok(lock) = Arc::clone(&network_util).try_lock() {
             (rx_bytes, tx_bytes) = lock.get_rxtx();
         }
-        battery_capacity = Arc::clone(&battery_util).lock().unwrap().get_battery_pwr();
-        battery_ac = Arc::clone(&battery_util).lock().unwrap().get_battery_ac();
-        cpu_temperature = Arc::clone(&cpu_util).lock().unwrap().get_temperature();
-        keyboard_layout = Arc::clone(&kbd_util).lock().unwrap().get_keyboard_layout();
-        keyboard_ledmask = Arc::clone(&kbd_util).lock().unwrap().get_ledmask();
+        if let Ok(lock) = Arc::clone(&battery_util).try_lock() {
+            battery_capacity = lock.get_battery_pwr();
+            battery_ac = lock.get_battery_ac();
+        }
+        if let Ok(lock) = Arc::clone(&cpu_util).try_lock() {
+            cpu_temperature = lock.get_temperature();
+        }
+        if let Ok(lock) = Arc::clone(&kbd_util).try_lock() {
+            keyboard_layout = lock.get_keyboard_layout();
+            keyboard_ledmask = lock.get_ledmask();
+        }
 
         _status_text.clear();
         now = chrono::Local::now();
 
         _status_text = format!(
             "{} "
-            , text_builders::get_heartbeat_text(heartbeat)
+            , text_builders::get_heartbeat_text(heartbeat.0)
         );
 
         _status_text = format!(
@@ -109,7 +115,7 @@ fn main() {
             , text_builders::get_clock_text(&now)
         );
         //println!("{}", _status_text);
-        utility::setxroot(&mut cmd_xsetroot, &_status_text);
+        utility::setxroot(_status_text.clone());
         thread::sleep(sleep_time);
         heartbeat += 1;
     }

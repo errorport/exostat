@@ -1,11 +1,15 @@
 use std::process::Command;
+use std::{thread, time};
 
 use crate::config;
 
 // Updating X rootserver's window name.
 #[inline]
-pub fn setxroot(cmd: &mut Command, _status_text: &String) {
-    let _output = cmd.arg("-name").arg(_status_text).output().expect("Failed to set X root window name!");
+pub fn setxroot(_status_text: String) {
+    thread::spawn(move || {
+        Command::new("xsetroot").arg("-name")
+        .arg(_status_text).output().expect("Failed to set X root window name!");
+    });
 }
 
 #[inline]
