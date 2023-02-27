@@ -50,16 +50,15 @@ pub fn get_battery_text(
     pwr: &f32
     , ac: &bool
     ) -> String {
-    //let mut _battery_icon = "".to_string();
-    let mut _battery_icon = "".to_string();
-    if *pwr < 80.0 {
-        _battery_icon = "".to_string();
-    } else if *pwr < 60.0 {
+    let mut _battery_icon = "".to_string();
+    if *pwr > 80.0 {
+        _battery_icon = "".to_string();
+    } else if *pwr > 60.0 {
+        _battery_icon = "" .to_string();
+    } else if *pwr > 40.0 {
         _battery_icon = "".to_string();
-    } else if *pwr < 40.0 {
+    } else if *pwr > 20.0 {
         _battery_icon = "".to_string();
-    } else if *pwr < 20.0 {
-        _battery_icon = "".to_string();
     }
     if *ac {
         _battery_icon
