@@ -7,7 +7,6 @@ edition = "2018"
 [dependencies]
 systemstat = "0.2.3"
 chrono = "0.4.6"
-mimalloc = { version = "0.1.17", default-features = false }
 lock_keys = "1.1.0"
 
 [profile.release]
