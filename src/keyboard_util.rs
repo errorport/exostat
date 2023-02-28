@@ -32,11 +32,11 @@ impl KbdUtil {
 
     // Running keyboard layout getter script.
     #[inline]
-    fn update(&mut self, cmd: &mut Command, lock_key: Arc<LockKey>) {
+    fn update(&mut self, lock_key: Arc<LockKey>) {
         self.numlock = lock_key.state(LockKeys::NumberLock).unwrap();
         self.capslock = lock_key.state(LockKeys::CapitalLock).unwrap();
 
-        let _output = cmd.arg("-query").output().unwrap();
+        let _output = Command::new("setxkbmap").arg("-query").output().unwrap();
         self.layout = String::from_utf8(_output.stdout).unwrap()
             .split('\n').collect::<Vec<&str>>()[2].to_string()
             .replace("layout:", "").replace(" ", "");
@@ -45,11 +45,10 @@ impl KbdUtil {
     #[inline]
     pub fn spawn_kbdstat(kdb_util: Arc<Mutex<Self>>) {
         let sleep_time = time::Duration::from_millis(config::KDB_READ_CYCLE_ms.into());
-        let mut cmd_setxkbmap = Command::new("setxkbmap");
         thread::spawn(move || {
             let lock_key = Arc::new(LockKey::new());
             loop {
-                kdb_util.lock().unwrap().update(&mut cmd_setxkbmap, lock_key.clone());
+                kdb_util.lock().unwrap().update(lock_key.clone());
                 thread::yield_now();
                 thread::sleep(sleep_time);
             }
