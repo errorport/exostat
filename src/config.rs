@@ -1,13 +1,13 @@
 
 pub static ACTIVE_COLOR:                    &'static str    = "#005bed";
 #[allow(non_upper_case_globals)]
-pub const  CYCLE_LENGTH_ms:                 u32             = 250;
+pub const  CYCLE_LENGTH_ms:                 u32             = 200;
 #[allow(non_upper_case_globals)]
 pub const  BATTERY_READ_CYCLE_ms:           u32             = 30000;
 #[allow(non_upper_case_globals)]
 pub const  CPU_READ_CYCLE_ms:               u32             = 10000;
 #[allow(non_upper_case_globals)]
-pub const  KDB_READ_CYCLE_ms:               u32             = 500;
+pub const  KDB_READ_CYCLE_ms:               u32             = 250;
 #[allow(non_upper_case_globals)]
 pub const  NETW_READ_CYCLE_s:               u32             = 1;
 pub const  BINARY_DOT_SIZE:                 u8              = 4;
