@@ -5,7 +5,7 @@ hashes=()
 
 cd ..
 mkdir -p results
-for i in {0..19}
+for i in {0..25}
 do
     hash=$(git show HEAD~${i} | head -1 | awk '{print $2}')
     hashes+="${hash} "
@@ -21,8 +21,11 @@ do
     cargo clean 2>&1 >> /dev/null
     ./build.sh 2>&1 >> /dev/null
     echo "- perftest"
-    echo "${hash}" >> ${result_file}
-    perf stat --timeout ${benchmark_length} target/release/exostat 2>&1 | tee ${result_file}
+    for repeat in {0..1}
+    do
+        perf stat --timeout ${benchmark_length} target/release/exostat 2>&1 | tee ${result_file}_${repeat}
+        echo "hash: ${hash}" >> ${result_file}
+    done
     echo "- *** -"
     i=$(($i + 1))
 done

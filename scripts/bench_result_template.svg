@@ -25,9 +25,9 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.7610503"
-     inkscape:cx="360.68575"
-     inkscape:cy="477.6294"
+     inkscape:zoom="0.99253085"
+     inkscape:cx="399.4838"
+     inkscape:cy="337.01723"
      inkscape:window-width="1920"
      inkscape:window-height="1058"
      inkscape:window-x="0"
@@ -98,7 +98,7 @@
            id="tspan2050"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
            x="20.149986"
-           y="60.512241">task clock:        %%task_clock%% msec</tspan></text>
+           y="60.512241">task clock:     %%task_clock%% msec</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -109,7 +109,7 @@
            id="tspan2088"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
            x="20.149986"
-           y="76.642731">cpu util:          %%cpu_util%% CPUs</tspan></text>
+           y="76.642731">cpu util:       %%cpu_util%% CPUs</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -120,7 +120,7 @@
            id="tspan2132"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
            x="20.149986"
-           y="93.655159">page faults:       %%page_faults%% K/sec</tspan></text>
+           y="93.655159">page faults:    %%page_faults%% K/sec</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -131,7 +131,7 @@
            id="tspan2158"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
            x="20.149986"
-           y="108.90371">cycles:            %%cycles%% GHz</tspan></text>
+           y="108.90371">cycles:         %%cycles%% GHz</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -142,7 +142,7 @@
            id="tspan2186"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
            x="20.149986"
-           y="125.03419">instructions:      %%instructions%% per cycle</tspan></text>
+           y="125.03419">instructions:   %%instructions%% per cycle</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -153,7 +153,7 @@
            id="tspan2190"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
            x="20.149986"
-           y="142.04662">branches:          %%branches%% M/sec</tspan></text>
+           y="142.04662">branches:       %%branches%% M/sec</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -164,7 +164,18 @@
            id="tspan2222"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
            x="20.149986"
-           y="157.29517">branch-misses:     %%branch_misses%% for all b.</tspan></text>
+           y="157.29517">branch-misses:  %%branch_misses%%% for all b.</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="46.493099"
+         id="text605"><tspan
+           sodipodi:role="line"
+           id="tspan603"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="46.493099">                AVG</tspan></text>
     </g>
     <text
        xml:space="preserve"
@@ -252,5 +263,97 @@
          x="258.31363"
          y="186.9716"
          id="tspan3058">2023</tspan></text>
+    <g
+       id="g543"
+       transform="translate(205.16026)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="60.512241"
+         id="text517"><tspan
+           sodipodi:role="line"
+           id="tspan515"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="60.512241">%%std_task_clock%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="76.642731"
+         id="text521"><tspan
+           sodipodi:role="line"
+           id="tspan519"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="76.642731">%%std_cpu_util%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="93.655159"
+         id="text525"><tspan
+           sodipodi:role="line"
+           id="tspan523"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="93.655159">%%std_page_faults%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="108.90371"
+         id="text529"><tspan
+           sodipodi:role="line"
+           id="tspan527"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="108.90371">%%std_cycles%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="125.03419"
+         id="text533"><tspan
+           sodipodi:role="line"
+           id="tspan531"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="125.03419">%%std_instructions%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="142.04662"
+         id="text537"><tspan
+           sodipodi:role="line"
+           id="tspan535"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="142.04662">%%std_branches%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="157.29517"
+         id="text541"><tspan
+           sodipodi:role="line"
+           id="tspan539"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="157.29517">%%std_branch_misses%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="46.493099"
+         id="text601"><tspan
+           sodipodi:role="line"
+           id="tspan599"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="46.493099">STD</tspan></text>
+    </g>
   </g>
 </svg>
