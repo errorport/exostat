@@ -1,6 +1,15 @@
+
 pub static ACTIVE_COLOR:                    &'static str    = "#005bed";
-pub const  CYCLE_LENGTH:                    u16             = 500;
-pub const  BATTERY_READ_CYCLE:              u8              = 20; // Every Nth cycle.
+#[allow(non_upper_case_globals)]
+pub const  CYCLE_LENGTH_ms:                 u32             = 200;
+#[allow(non_upper_case_globals)]
+pub const  BATTERY_READ_CYCLE_ms:           u32             = 30000;
+#[allow(non_upper_case_globals)]
+pub const  CPU_READ_CYCLE_ms:               u32             = 10000;
+#[allow(non_upper_case_globals)]
+pub const  KDB_READ_CYCLE_ms:               u32             = 250;
+#[allow(non_upper_case_globals)]
+pub const  NETW_READ_CYCLE_s:               u32             = 1;
 pub const  BINARY_DOT_SIZE:                 u8              = 4;
 pub const  BINARY_DOT_HORIZONTAL_SPACING:   u8              = 1;
 pub const  BINARY_DOT_OFFSET:               u8              = 6;

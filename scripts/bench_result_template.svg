@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 297 210"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="bench_result_template.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.99253085"
+     inkscape:cx="399.4838"
+     inkscape:cy="337.01723"
+     inkscape:window-width="1920"
+     inkscape:window-height="1058"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true" />
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1705">
+      <stop
+         style="stop-color:#33001d;stop-opacity:1;"
+         offset="0"
+         id="stop1701" />
+      <stop
+         style="stop-color:#001f35;stop-opacity:1;"
+         offset="1"
+         id="stop1703" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1705"
+       id="linearGradient1707"
+       x1="0"
+       y1="210"
+       x2="297"
+       y2="0"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:url(#linearGradient1707);stroke:none;stroke-width:1.2;stroke-linecap:square;stop-color:#000000;fill-opacity:1"
+       id="rect234"
+       width="297"
+       height="210"
+       x="0"
+       y="0" />
+    <path
+       id="rect1914"
+       style="fill:#ffcc00;fill-opacity:1;stroke:#ffcc00;stroke-width:1.05833;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+       d="M 13.684595,15.731959 V 33.699854 H 283.31539 l 2e-5,-18.165845 z"
+       sodipodi:nodetypes="ccccc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:22.4412px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.561031"
+       x="21.031927"
+       y="31.261166"
+       id="text1763"><tspan
+         sodipodi:role="line"
+         id="tspan1761"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#000000;fill-opacity:1;stroke-width:0.561031"
+         x="21.031927"
+         y="31.261166">%%NUM%%</tspan></text>
+    <g
+       id="g2970">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="60.512241"
+         id="text2052"><tspan
+           sodipodi:role="line"
+           id="tspan2050"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="60.512241">task clock:     %%task_clock%% msec</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="76.642731"
+         id="text2090"><tspan
+           sodipodi:role="line"
+           id="tspan2088"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="76.642731">cpu util:       %%cpu_util%% CPUs</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="93.655159"
+         id="text2134"><tspan
+           sodipodi:role="line"
+           id="tspan2132"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="93.655159">page faults:    %%page_faults%% K/sec</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="108.90371"
+         id="text2160"><tspan
+           sodipodi:role="line"
+           id="tspan2158"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="108.90371">cycles:         %%cycles%% GHz</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="125.03419"
+         id="text2188"><tspan
+           sodipodi:role="line"
+           id="tspan2186"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="125.03419">instructions:   %%instructions%% per cycle</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="142.04662"
+         id="text2192"><tspan
+           sodipodi:role="line"
+           id="tspan2190"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="142.04662">branches:       %%branches%% M/sec</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="157.29517"
+         id="text2224"><tspan
+           sodipodi:role="line"
+           id="tspan2222"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="157.29517">branch-misses:  %%branch_misses%%% for all b.</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="46.493099"
+         id="text605"><tspan
+           sodipodi:role="line"
+           id="tspan603"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="46.493099">                AVG</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="20.149986"
+       y="184.45515"
+       id="text2258"><tspan
+         sodipodi:role="line"
+         id="tspan2256"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+         x="20.149986"
+         y="184.45515">runtime: 60 sec</tspan></text>
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#ffcc00;stroke-width:1.05833;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+       id="rect2407"
+       width="269.6308"
+       height="160.76653"
+       x="13.684595"
+       y="33.699856" />
+    <path
+       style="fill:none;stroke:#ffcc00;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="M 13.155428,168.85815 H 283.3154"
+       id="path2461" />
+    <g
+       id="g2040"
+       transform="matrix(0.87155687,0,0,0.87155687,321.22718,-14.193941)"
+       style="stroke:#00247f;stroke-width:1.42498;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1">
+      <rect
+         style="fill:none;fill-opacity:1;stroke:#00247f;stroke-width:1.42498;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+         id="rect1968"
+         width="10.829266"
+         height="10.829266"
+         x="-19.307711"
+         y="71.453781"
+         transform="rotate(45)" />
+      <path
+         style="fill:none;stroke:#00247f;stroke-width:1.42498;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         d="m -75.896524,44.530287 h 23.436916"
+         id="path2033" />
+      <path
+         style="fill:none;stroke:#00247f;stroke-width:1.42498;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         d="m -75.896524,48.175743 h 23.436916"
+         id="path2035" />
+    </g>
+    <path
+       style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 283.3154,168.85815 -25.60823,25.60823 25.60821,-10e-6 z"
+       id="path2533" />
+    <g
+       id="g2742">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:7.22991px;line-height:0.65;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.180749"
+         x="75.539566"
+         y="24.832968"
+         id="text2732"><tspan
+           sodipodi:role="line"
+           id="tspan2730"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#000000;fill-opacity:1;stroke-width:0.180749"
+           x="75.539566"
+           y="24.832968">HASH:</tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#000000;fill-opacity:1;stroke-width:0.180749"
+           x="75.539566"
+           y="29.718611"
+           id="tspan2734">%%HASH%%</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 71.750358,18.659177 71.552932,31.674955"
+         id="path2736" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.2776px;line-height:0.85;font-family:sans-serif;text-align:end;text-anchor:end;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.18194"
+       x="258.31363"
+       y="180.59821"
+       id="text3056"><tspan
+         sodipodi:role="line"
+         id="tspan3054"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';text-align:end;text-anchor:end;fill:#ffcc00;fill-opacity:1;stroke-width:0.18194"
+         x="258.31363"
+         y="180.59821">Gergely B. B.</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';text-align:end;text-anchor:end;fill:#ffcc00;fill-opacity:1;stroke-width:0.18194"
+         x="258.31363"
+         y="186.9716"
+         id="tspan3058">2023</tspan></text>
+    <g
+       id="g543"
+       transform="translate(205.16026)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="60.512241"
+         id="text517"><tspan
+           sodipodi:role="line"
+           id="tspan515"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="60.512241">%%std_task_clock%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="76.642731"
+         id="text521"><tspan
+           sodipodi:role="line"
+           id="tspan519"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="76.642731">%%std_cpu_util%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="93.655159"
+         id="text525"><tspan
+           sodipodi:role="line"
+           id="tspan523"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="93.655159">%%std_page_faults%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="108.90371"
+         id="text529"><tspan
+           sodipodi:role="line"
+           id="tspan527"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="108.90371">%%std_cycles%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="125.03419"
+         id="text533"><tspan
+           sodipodi:role="line"
+           id="tspan531"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="125.03419">%%std_instructions%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="142.04662"
+         id="text537"><tspan
+           sodipodi:role="line"
+           id="tspan535"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="142.04662">%%std_branches%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="157.29517"
+         id="text541"><tspan
+           sodipodi:role="line"
+           id="tspan539"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="157.29517">%%std_branch_misses%%</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="20.149986"
+         y="46.493099"
+         id="text601"><tspan
+           sodipodi:role="line"
+           id="tspan599"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'ProFont for Powerline';-inkscape-font-specification:'ProFont for Powerline';fill:#ffcc00;fill-opacity:1;stroke-width:0.264583"
+           x="20.149986"
+           y="46.493099">STD</tspan></text>
+    </g>
+  </g>
+</svg>

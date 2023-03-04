@@ -4,74 +4,93 @@ extern crate chrono;
 extern crate systemstat;
 
 use std::{thread, time};
+use std::sync::{Arc, Mutex};
+use std::process::Command;
+use std::num::Wrapping;
+
 use systemstat::{Platform, System};
 
 pub mod utility;
 pub mod config;
 mod text_builders;
+mod network_util;
+mod battery_util;
+mod cpu_util;
+mod keyboard_util;
+
+use crate::network_util::NetworkUtil;
+use crate::battery_util::BatteryUtil;
+use crate::cpu_util::CPUUtil;
+use crate::keyboard_util::KbdUtil;
 
 fn main() {
-    let sleep_time = time::Duration::from_millis(config::CYCLE_LENGTH as u64);
-    let mut rx_bytes_previous = 0u32;
-    let mut tx_bytes_previous = 0u32;
-    let mut cycle_counter = 0u8;
+    let sleep_time = time::Duration::from_millis(config::CYCLE_LENGTH_ms as u64);
+
+    // Initializing resources
+    let mut heartbeat = Wrapping(0u8);
+    // Networking resources
+    let network_util = Arc::new(Mutex::new(NetworkUtil::new()));
+    NetworkUtil::spawn_networkstat(Arc::clone(&network_util));
     let mut rx_bytes = 0u32;
     let mut tx_bytes = 0u32;
-    let mut rx_bytes_counter = 0u32;
-    let mut tx_bytes_counter = 0u32;
-    let mut rx_bytes_diff = 0i64;
-    let mut tx_bytes_diff = 0i64;
-    let mut battery_capacity = 0u8;
+    // Battery info resources
+    let battery_util = Arc::new(Mutex::new(BatteryUtil::new()));
+    BatteryUtil::spawn_batterystat(Arc::clone(&battery_util));
+    let mut battery_capacity = 0f32;
     let mut battery_ac = false;
+    // CPU info resources
+    let cpu_util = Arc::new(Mutex::new(CPUUtil::new()));
+    CPUUtil::spawn_cpustat(Arc::clone(&cpu_util));
+    let mut cpu_temperature = 0f32;
+    // Keyboard resources
+    let kbd_util = Arc::new(Mutex::new(KbdUtil::new()));
+    KbdUtil::spawn_kbdstat(Arc::clone(&kbd_util));
+    let mut keyboard_layout: String = "".to_string();
+    let mut keyboard_ledmask = (false, false);
 
-    // Initializing system resources
-    let sys  = System::new();
-    let netw = sys.networks().unwrap();
     let mut now = chrono::Local::now();
+    let mut _status_text = "".to_string();
 
     loop {
-        let mut _status_text: String = "".to_string();
-        now = chrono::Local::now();
-
-        utility::calculate_network_rxtx(
-            &sys
-            , &netw
-            , &mut rx_bytes_previous
-            , &mut tx_bytes_previous
-            , &mut rx_bytes_counter
-            , &mut tx_bytes_counter
-            , &mut rx_bytes
-            , &mut tx_bytes
-            , &mut rx_bytes_diff
-            , &mut tx_bytes_diff
-            , &cycle_counter
-        );
-
-        if (cycle_counter % config::BATTERY_READ_CYCLE) == 0 {
-            battery_capacity = utility::get_battery_pwr(&sys);
-            battery_ac = utility::get_battery_ac(&sys);
+        if let Ok(lock) = Arc::clone(&network_util).try_lock() {
+            (rx_bytes, tx_bytes) = lock.get_rxtx();
+        }
+        if let Ok(lock) = Arc::clone(&battery_util).try_lock() {
+            battery_capacity = lock.get_battery_pwr();
+            battery_ac = lock.get_battery_ac();
+        }
+        if let Ok(lock) = Arc::clone(&cpu_util).try_lock() {
+            cpu_temperature = lock.get_temperature();
+        }
+        if let Ok(lock) = Arc::clone(&kbd_util).try_lock() {
+            keyboard_layout = lock.get_keyboard_layout();
+            keyboard_ledmask = lock.get_ledmask();
         }
 
+        _status_text.clear();
+        now = chrono::Local::now();
+
         _status_text = format!(
-            "{} |"
-            , text_builders::get_keyboard_text()
+            "{} "
+            , text_builders::get_heartbeat_text(heartbeat.0)
         );
 
         _status_text = format!(
             "{} {} |"
             , _status_text
-            , text_builders::get_cpu_text(&sys)
+            , text_builders::get_keyboard_text(keyboard_layout.clone(), keyboard_ledmask)
         );
 
         _status_text = format!(
             "{} {} |"
             , _status_text
-            , text_builders::get_netw_rxtx_text(
-                &rx_bytes_diff
-                , &tx_bytes_diff
-                , &rx_bytes
-                , &tx_bytes
-            )
+            , text_builders::get_cpu_text(cpu_temperature)
+        );
+
+        _status_text = format!(
+            "{} {} |"
+            , _status_text
+            , text_builders::get_netw_rxtx_text(&rx_bytes, &tx_bytes)
         );
 
         _status_text = format!(
@@ -92,14 +111,9 @@ fn main() {
             , _status_text
             , text_builders::get_clock_text(&now)
         );
-
         //println!("{}", _status_text);
-        utility::setxroot(_status_text);
+        utility::setxroot(_status_text.clone());
         thread::sleep(sleep_time);
-        cycle_counter += 1;
-        // Avoid to use unsafe block because of overflowing.
-        if cycle_counter >= 254 {
-            cycle_counter = 0;
-        }
+        heartbeat += 1;
     }
 }
