@@ -29,10 +29,10 @@ pub fn get_netw_rxtx_text(rx_bytes: &u32, tx_bytes: &u32) -> String {
         let mut upload_icon = "".to_string();
         let mut download_icon = "".to_string();
         if *rx_bytes > 0 {
-            download_icon = format!("^c{}^{}^d^", config::ACTIVE_COLOR, download_icon);
+            download_icon = format!("^c{}^{}^d^", config::active_color(), download_icon);
         }
         if *tx_bytes > 0 {
-            upload_icon = format!("^c{}^{}^d^", config::ACTIVE_COLOR, upload_icon);
+            upload_icon = format!("^c{}^{}^d^", config::active_color(), upload_icon);
         }
         format!(
             "{} {:04}KiB/s {} {:04}KiB/s",
@@ -62,7 +62,7 @@ pub fn get_battery_text(
     }
     if *ac {
         _battery_icon
-            = format!("^c{}^{}^d^", config::ACTIVE_COLOR, _battery_icon);
+            = format!("^c{}^{}^d^", config::active_color(), _battery_icon);
     }
     format!("{} {:02.0}%", _battery_icon, *pwr)
 }

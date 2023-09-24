@@ -55,7 +55,7 @@ fn place_dot(
     dot_str = match num {
         1 => format!(
             "^c{}^{}^d^"
-            , config::ACTIVE_COLOR
+            , config::active_color()
             , dot_str
         ),
         _ => small_dot_str,

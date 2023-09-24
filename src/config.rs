@@ -1,5 +1,9 @@
+use std::env;
 
-pub static ACTIVE_COLOR:                    &'static str    = "#005bed";
+pub fn active_color() -> String {
+    env::args().collect::<Vec<String>>()[1].clone()
+}
+
 #[allow(non_upper_case_globals)]
 pub const  CYCLE_LENGTH_ms:                 u32             = 200;
 #[allow(non_upper_case_globals)]
