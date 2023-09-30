@@ -1,7 +1,11 @@
 use std::env;
 
 pub fn active_color() -> String {
-    env::args().collect::<Vec<String>>()[1].clone()
+    let args = env::args().collect::<Vec<String>>();
+    if args.len() > 1 {
+        return args[1].clone();
+    }
+    "#00aedd".to_string()
 }
 
 #[allow(non_upper_case_globals)]
